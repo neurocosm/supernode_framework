@@ -1,0 +1,8 @@
+{
+  "name": "Supernode Framework",
+  "description": "Modular Hardware Chassis & Resizable Tile Grid",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

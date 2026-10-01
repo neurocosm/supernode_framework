@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Supernode Framework</title>
   <meta name="description" content="Supernode Framework - Modular Hardware Chassis & Resizable Tile Grid">
+  <meta property="og:title" content="Supernode Framework">
+  <meta property="og:description" content="Supernode Framework - Modular Hardware Chassis & Resizable Tile Grid">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,8 +33,8 @@
       --accent-amber: #fbbf24;
       
       --rh-row1: 1.0;
-      --rh-row2: 1.25;
-      --rh-row3: 0.95;
+      --rh-row2: 1.0;
+      --rh-row3: 1.0;
       
       --r1-w1: 1;
       --r1-w2: 1;
@@ -41,6 +43,10 @@
       --r2-w1: 1;
       --r2-w2: 1;
       --r2-w3: 1;
+
+      --r3-w1: 1;
+      --r3-w2: 1;
+      --r3-w3: 1;
     }
 
     *{
@@ -415,6 +421,10 @@
     #panel2A{ flex: var(--r2-w1, 1) 1 0px; min-width: 0; width: 0; }
     #panel2B{ flex: var(--r2-w2, 1) 1 0px; min-width: 0; width: 0; }
     #panel2C{ flex: var(--r2-w3, 1) 1 0px; min-width: 0; width: 0; }
+
+    #panel3A{ flex: var(--r3-w1, 1) 1 0px; min-width: 0; width: 0; }
+    #panel3B{ flex: var(--r3-w2, 1) 1 0px; min-width: 0; width: 0; }
+    #panel3C{ flex: var(--r3-w3, 1) 1 0px; min-width: 0; width: 0; }
 
     .tile-card{
       background: var(--card-bg);
@@ -801,16 +811,6 @@
             <polygon points="1,2 9,2 5,9"/>
           </svg>
         </button>
-        <button type="button" class="bezel-btn bezel-btn-dice" id="bezelDiceBtn" title="Switch view: Primary Grid ⇄ Alternate Tray" aria-label="Toggle tray view">
-          <svg class="bezel-dice-icon" viewBox="0 0 20 20" width="7.5" height="7.5">
-            <rect x="1.5" y="1.5" width="17" height="17" rx="3" stroke-width="2"/>
-            <circle cx="6" cy="6" r="1.8"/>
-            <circle cx="14" cy="6" r="1.8"/>
-            <circle cx="10" cy="10" r="1.8"/>
-            <circle cx="6" cy="14" r="1.8"/>
-            <circle cx="14" cy="14" r="1.8"/>
-          </svg>
-        </button>
       </div>
 
     </div>
@@ -827,8 +827,7 @@
 
         <div class="tile-card" id="panel1A">
           <div class="tile-header">
-            <span class="tile-title">System Overview</span>
-            <span class="tile-badge">1A • LIVE</span>
+            <span class="tile-title">1</span>
           </div>
           <div class="tile-body" id="body1A"></div>
         </div>
@@ -839,8 +838,7 @@
 
         <div class="tile-card" id="panel1B">
           <div class="tile-header">
-            <span class="tile-title">Activity Stream</span>
-            <span class="tile-badge">1B • SIGNAL</span>
+            <span class="tile-title">2</span>
           </div>
           <div class="tile-body" id="body1B"></div>
         </div>
@@ -851,8 +849,7 @@
 
         <div class="tile-card" id="panel1C">
           <div class="tile-header">
-            <span class="tile-title">Signal Monitor</span>
-            <span class="tile-badge">1C • ACTIVE</span>
+            <span class="tile-title">3</span>
           </div>
           <div class="tile-body" id="body1C"></div>
         </div>
@@ -872,8 +869,7 @@
 
         <div class="tile-card" id="panel2A">
           <div class="tile-header">
-            <span class="tile-title">Pipeline Vectors</span>
-            <span class="tile-badge">2A • FLOW</span>
+            <span class="tile-title">4</span>
           </div>
           <div class="tile-body" id="body2A"></div>
         </div>
@@ -884,8 +880,7 @@
 
         <div class="tile-card" id="panel2B">
           <div class="tile-header">
-            <span class="tile-title">Node Matrix Inspector</span>
-            <span class="tile-badge">2B • QUORUM</span>
+            <span class="tile-title">5</span>
           </div>
           <div class="tile-body" id="body2B"></div>
         </div>
@@ -896,8 +891,7 @@
 
         <div class="tile-card" id="panel2C">
           <div class="tile-header">
-            <span class="tile-title">Operations Log</span>
-            <span class="tile-badge">2C • FEED</span>
+            <span class="tile-title">6</span>
           </div>
           <div class="tile-body" id="body2C"></div>
         </div>
@@ -908,57 +902,41 @@
         <div class="tier-splitter-grip"></div>
       </div>
 
-      <!-- ==================== TIER ROW 3 (MODULAR TRAY) ==================== -->
+      <!-- ==================== TIER ROW 3 (3-COLUMNS FULL WIDTH) ==================== -->
       <div class="screen-row" id="row3">
         <div class="row-shutter-bar" id="shutterRow3" role="button" tabindex="0" title="Click to unroll Tier 3">
           <span class="shutter-dot"></span>
-          <span id="shutterRow3Label">TIER 3 (MODULAR TRAY) <span class="shutter-hint">(click to unroll)</span></span>
+          <span id="shutterRow3Label">TIER 3 (ROW 3) <span class="shutter-hint">(click to unroll)</span></span>
         </div>
 
-        <!-- Primary Tray (5 Columns) -->
-        <div class="grid-tray" id="primaryTray">
-          <div class="tile-card">
-            <div class="tile-header"><span class="tile-title">Channel 01</span><span class="tile-badge">01</span></div>
-            <div class="tile-body" id="slotBody1"></div>
+        <div class="tile-card" id="panel3A">
+          <div class="tile-header">
+            <span class="tile-title">7</span>
           </div>
-          <div class="tile-card">
-            <div class="tile-header"><span class="tile-title">Channel 02</span><span class="tile-badge">02</span></div>
-            <div class="tile-body" id="slotBody2"></div>
-          </div>
-          <div class="tile-card">
-            <div class="tile-header"><span class="tile-title">Channel 03</span><span class="tile-badge">03</span></div>
-            <div class="tile-body" id="slotBody3"></div>
-          </div>
-          <div class="tile-card">
-            <div class="tile-header"><span class="tile-title">Channel 04</span><span class="tile-badge">04</span></div>
-            <div class="tile-body" id="slotBody4"></div>
-          </div>
-          <div class="tile-card">
-            <div class="tile-header"><span class="tile-title">Channel 05</span><span class="tile-badge">05</span></div>
-            <div class="tile-body" id="slotBody5"></div>
-          </div>
+          <div class="tile-body" id="body3A"></div>
         </div>
 
-        <!-- Secondary Alternate Tray (4 Columns) -->
-        <div class="grid-tray" id="secondaryTray">
-          <div class="tile-card">
-            <div class="tile-header"><span class="tile-title">Aux Alpha</span><span class="tile-badge">AUX</span></div>
-            <div class="tile-body"><div class="tray-cell-wrap"><span class="tray-num">SEC-A</span><span class="tray-desc">Standby Array</span></div></div>
-          </div>
-          <div class="tile-card">
-            <div class="tile-header"><span class="tile-title">Aux Beta</span><span class="tile-badge">AUX</span></div>
-            <div class="tile-body"><div class="tray-cell-wrap"><span class="tray-num">SEC-B</span><span class="tray-desc">Backup Tunnel</span></div></div>
-          </div>
-          <div class="tile-card">
-            <div class="tile-header"><span class="tile-title">Aux Gamma</span><span class="tile-badge">AUX</span></div>
-            <div class="tile-body"><div class="tray-cell-wrap"><span class="tray-num">SEC-C</span><span class="tray-desc">Relay Gateway</span></div></div>
-          </div>
-          <div class="tile-card">
-            <div class="tile-header"><span class="tile-title">Aux Delta</span><span class="tile-badge">AUX</span></div>
-            <div class="tile-body"><div class="tray-cell-wrap"><span class="tray-num">SEC-D</span><span class="tray-desc">Telemetry Bus</span></div></div>
-          </div>
+        <div class="col-splitter" data-row="row3" data-seam="0" role="separator" aria-orientation="vertical" title="Drag to resize width">
+          <div class="col-splitter-grip"></div>
         </div>
 
+        <div class="tile-card" id="panel3B">
+          <div class="tile-header">
+            <span class="tile-title">8</span>
+          </div>
+          <div class="tile-body" id="body3B"></div>
+        </div>
+
+        <div class="col-splitter" data-row="row3" data-seam="1" role="separator" aria-orientation="vertical" title="Drag to resize width">
+          <div class="col-splitter-grip"></div>
+        </div>
+
+        <div class="tile-card" id="panel3C">
+          <div class="tile-header">
+            <span class="tile-title">9</span>
+          </div>
+          <div class="tile-body" id="body3C"></div>
+        </div>
       </div>
 
     </div> <!-- #screen -->
@@ -973,11 +951,9 @@
 <script src="js/panel2A.js"></script>
 <script src="js/panel2B.js"></script>
 <script src="js/panel2C.js"></script>
-<script src="js/slot1.js"></script>
-<script src="js/slot2.js"></script>
-<script src="js/slot3.js"></script>
-<script src="js/slot4.js"></script>
-<script src="js/slot5.js"></script>
+<script src="js/panel3A.js"></script>
+<script src="js/panel3B.js"></script>
+<script src="js/panel3C.js"></script>
 
 <script>
 (function(){
@@ -985,7 +961,7 @@
 
   const DEFAULT_ROW_ORDER = ['row1', 'row2', 'row3'];
   const VALID_ROW_IDS = ['row1', 'row2', 'row3'];
-  const DEFAULT_ROW_HEIGHTS = { row1: 1.0, row2: 1.25, row3: 0.95 };
+  const DEFAULT_ROW_HEIGHTS = { row1: 1.0, row2: 1.0, row3: 1.0 };
   const DEFAULT_COL_WEIGHTS = [1, 1, 1];
 
   let currentRowOrder = [...DEFAULT_ROW_ORDER];
@@ -1046,11 +1022,12 @@
 
   const colWeights = {
     row1: loadColWeights('row1'),
-    row2: loadColWeights('row2')
+    row2: loadColWeights('row2'),
+    row3: loadColWeights('row3')
   };
 
   function applyColWeights(rowKey, weights){
-    const prefix = rowKey === 'row1' ? '--r1-w' : '--r2-w';
+    const prefix = rowKey === 'row1' ? '--r1-w' : (rowKey === 'row2' ? '--r2-w' : '--r3-w');
     document.documentElement.style.setProperty(`${prefix}1`, String(weights[0]));
     document.documentElement.style.setProperty(`${prefix}2`, String(weights[1]));
     document.documentElement.style.setProperty(`${prefix}3`, String(weights[2]));
@@ -1058,6 +1035,7 @@
 
   applyColWeights('row1', colWeights.row1);
   applyColWeights('row2', colWeights.row2);
+  applyColWeights('row3', colWeights.row3);
 
   function initTierSplitters(){
     const splitters = document.querySelectorAll('.tier-splitter');
@@ -1374,38 +1352,6 @@
         });
       }
     });
-
-    const diceBtn = document.getElementById('bezelDiceBtn');
-    if(diceBtn){
-      diceBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        setTrayView(activeTrayView === 'primary' ? 'secondary' : 'primary');
-      });
-    }
-  }
-
-  function setTrayView(view){
-    activeTrayView = view;
-    try {
-      localStorage.setItem('supernode_tray_view', activeTrayView);
-    } catch(e){}
-
-    const primaryTray = document.getElementById('primaryTray');
-    const secondaryTray = document.getElementById('secondaryTray');
-    const diceBtn = document.getElementById('bezelDiceBtn');
-    const label = document.getElementById('shutterRow3Label');
-
-    if(activeTrayView === 'secondary'){
-      if(primaryTray) primaryTray.style.display = 'none';
-      if(secondaryTray) secondaryTray.style.display = 'grid';
-      if(diceBtn) diceBtn.classList.add('is-alt-view');
-      if(label) label.innerHTML = 'TIER 3 (ALTERNATE TRAY) <span class="shutter-hint">(click to unroll)</span>';
-    } else {
-      if(primaryTray) primaryTray.style.display = 'grid';
-      if(secondaryTray) secondaryTray.style.display = 'none';
-      if(diceBtn) diceBtn.classList.remove('is-alt-view');
-      if(label) label.innerHTML = 'TIER 3 (PRIMARY TRAY) <span class="shutter-hint">(click to unroll)</span>';
-    }
   }
 
   function populateModules(){
@@ -1416,11 +1362,9 @@
       { id: 'body2A', fn: window.Panel2A },
       { id: 'body2B', fn: window.Panel2B },
       { id: 'body2C', fn: window.Panel2C },
-      { id: 'slotBody1', fn: window.Slot1 },
-      { id: 'slotBody2', fn: window.Slot2 },
-      { id: 'slotBody3', fn: window.Slot3 },
-      { id: 'slotBody4', fn: window.Slot4 },
-      { id: 'slotBody5', fn: window.Slot5 }
+      { id: 'body3A', fn: window.Panel3A },
+      { id: 'body3B', fn: window.Panel3B },
+      { id: 'body3C', fn: window.Panel3C }
     ];
 
     modules.forEach(m => {
@@ -1437,7 +1381,6 @@
     initColSplitters();
     bindBezelControls();
     updateRowCollapseUI(false);
-    setTrayView(activeTrayView);
     populateModules();
   });
 
