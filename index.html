@@ -2,31 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Supernode Framework</title>
-  <meta name="description" content="Supernode Framework - Modular Hardware Chassis & Resizable Tile Grid">
-  <meta property="og:title" content="Supernode Framework">
-  <meta property="og:description" content="Supernode Framework - Modular Hardware Chassis & Resizable Tile Grid">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Supernode Modular Display Console</title>
+  <meta name="description" content="Supernode Modular Display Console - Hardware-styled multi-tier responsive operational console framework">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    :root{
-      --bezel-hi: #2b333a;
-      --bezel: #1b2126;
-      --bezel-lo: #101417;
-      
-      --screen-bg: #0b1013;
-      --screen-bg-2: #12191f;
-      
-      --card-bg: rgba(255, 255, 255, 0.025);
-      --card-border: rgba(255, 255, 255, 0.07);
-      --card-hover: rgba(255, 255, 255, 0.04);
-      
-      --text-main: #e2e8f0;
-      --text-muted: #7e8f9b;
+    :root {
+      --bezel-hi: #2b3945;
+      --bezel: #1b252e;
+      --bezel-lo: #0f151a;
+      --screen-bg: #090e13;
+      --screen-bg-2: #0d151c;
+      --card-bg: rgba(18, 28, 36, 0.72);
+      --card-hover: rgba(26, 40, 52, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
       --text-dim: #475569;
       --accent-blue: #38bdf8;
       --accent-green: #34d399;
@@ -53,50 +47,53 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-tap-highlight-color: transparent;
     }
 
     html, body{
       width: 100%;
       height: 100%;
-      background: #000000;
-      color: var(--text-main);
-      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100%;
       overflow: hidden;
+      background: #04070a;
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: clamp(4px, 1.2vh, 12px) clamp(6px, 1.5vw, 14px);
+      -webkit-font-smoothing: antialiased;
+      padding: 8px;
     }
 
+    /* Overall Hardware Casing - Perfectly Symmetrical Left and Right */
     .device{
       width: 100%;
-      max-width: 1440px;
-      height: 100%;
-      min-height: 0;
-      flex: 1 1 auto;
+      max-width: 1720px;
+      height: calc(100vh - 16px);
+      max-height: 980px;
       display: flex;
       flex-direction: column;
       background: linear-gradient(155deg, var(--bezel-hi), var(--bezel) 40%, var(--bezel-lo));
       border-radius: 16px;
-      padding: 0 12px 12px 2px;
+      padding: 0 12px 12px 12px;
       box-shadow: 0 25px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 6px rgba(0,0,0,0.3);
       overflow: hidden;
       position: relative;
     }
 
+    /* Top Chassis Header Strip */
     .device-header-strip{
-      height: 14px;
+      height: 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 6px 0 14px;
+      padding: 0 14px;
       user-select: none;
-      opacity: 0.45;
-      transition: opacity 0.2s ease;
+      position: relative;
     }
-    .device-header-strip:hover{
-      opacity: 0.85;
+    .brand-group{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
     .brand-name{
       font-size: 8px;
@@ -105,6 +102,88 @@
       text-transform: uppercase;
       color: var(--text-muted);
     }
+    .brand-version-tag{
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5px;
+      font-weight: 600;
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: 4px;
+      padding: 1px 5px;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+
+    /* Veil Selector 3 Dots */
+    .veil-dots-container{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      z-index: 10;
+      padding: 3px 12px;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.7);
+    }
+    .veil-dot{
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #475569;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      outline: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
+      position: relative;
+      user-select: none;
+      touch-action: none;
+    }
+    .veil-dot::after{
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+    }
+    .veil-dot:hover:not(:disabled){
+      background: #94a3b8;
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: scale(1.25);
+    }
+    .veil-dot.active{
+      background: var(--accent-blue);
+      border-color: #e0f2fe;
+      box-shadow: 0 0 9px rgba(56, 189, 248, 0.85), inset 0 0 2px #fff;
+      transform: scale(1.22);
+    }
+    .veil-dot.is-pressing{
+      transform: scale(0.92) !important;
+      background: var(--accent-amber) !important;
+      border-color: #fef08a !important;
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.9), inset 0 0 2px #fff !important;
+    }
+    .veil-dot.is-equalized{
+      animation: dotEqualizePulse 0.45s ease-out !important;
+    }
+    @keyframes dotEqualizePulse{
+      0%{ transform: scale(1.6); box-shadow: 0 0 18px rgba(52, 211, 153, 1); background: var(--accent-green); }
+      100%{ transform: scale(1.22); box-shadow: 0 0 9px rgba(56, 189, 248, 0.85); background: var(--accent-blue); }
+    }
+    .veil-dot:disabled{
+      opacity: 0.22;
+      cursor: not-allowed;
+      border-color: transparent;
+      box-shadow: none;
+    }
+
     .brand-ver{
       font-family: 'JetBrains Mono', monospace;
       font-size: 7.5px;
@@ -117,155 +196,13 @@
       flex-direction: row;
       align-items: stretch;
       flex: 1 1 auto;
-      height: calc(100% - 14px);
+      height: calc(100% - 22px);
       min-height: 0;
       width: 100%;
       position: relative;
     }
 
-    .bezel-rail{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: stretch;
-      flex: 0 0 8px;
-      width: 8px;
-      margin-right: 2px;
-      height: 100%;
-      min-height: 0;
-      padding-top: clamp(6px, 1.2vh, 12px);
-      padding-bottom: clamp(4px, 0.8vh, 8px);
-      position: relative;
-      z-index: 25;
-      user-select: none;
-      gap: 6px;
-    }
-
-    .bezel-row-ctrl{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: clamp(8px, 1.4vh, 14px);
-      width: 100%;
-      min-height: 0;
-      position: relative;
-      transition: flex 0.25s cubic-bezier(0.16, 1, 0.3, 1), min-height 0.25s ease, max-height 0.25s ease;
-    }
-    .bezel-row-ctrl[data-row-id="row1"]:not(.is-row-collapsed){ flex: var(--rh-row1, 1.0) 1 0px !important; }
-    .bezel-row-ctrl[data-row-id="row2"]:not(.is-row-collapsed){ flex: var(--rh-row2, 1.25) 1 0px !important; }
-    .bezel-row-ctrl[data-row-id="row3"]:not(.is-row-collapsed){ flex: var(--rh-row3, 0.95) 1 0px !important; }
-
-    .bezel-row-ctrl.is-row-collapsed{
-      flex: 0 0 16px !important;
-      min-height: 16px !important;
-      max-height: 16px !important;
-      gap: 0 !important;
-    }
-
-    .bezel-btn{
-      background: transparent;
-      border: none;
-      outline: none;
-      padding: 4px 0;
-      margin: 0;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-      line-height: 1;
-      min-height: 16px;
-      width: 100%;
-    }
-    .bezel-btn:focus-visible{
-      outline: 1px dotted #8294a0;
-      outline-offset: 1px;
-    }
-
-    .bezel-shutter-block{
-      display: block;
-      width: 7px;
-      height: 4.5px;
-      background: #768793;
-      border: 1px solid #4a5761;
-      border-radius: 1px;
-      transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
-    }
-    .bezel-btn-shutter:hover .bezel-shutter-block{
-      background: #9fb0bc;
-      border-color: #63737e;
-    }
-    .bezel-btn-shutter:active .bezel-shutter-block{
-      transform: scale(0.90);
-      background: #54636d;
-    }
-    .bezel-row-ctrl.is-row-collapsed .bezel-shutter-block{
-      background: #877f72;
-      border-color: #575249;
-    }
-    .bezel-row-ctrl.is-row-collapsed .bezel-btn-shutter:hover .bezel-shutter-block{
-      background: #a89e8f;
-      border-color: #6e685e;
-    }
-
-    .bezel-btn-arrow{
-      color: #768793;
-      transition: color 0.15s ease, transform 0.1s ease;
-    }
-    .bezel-btn-arrow:hover{
-      color: #a8b8c4;
-      transform: scale(1.15);
-    }
-    .bezel-btn-arrow:active{
-      transform: scale(0.85);
-      color: #54636d;
-    }
-    .bezel-arrow-icon{
-      display: block;
-      pointer-events: none;
-      fill: currentColor;
-    }
-
-    .bezel-row-ctrl.slot-top .bezel-arrow-up{ display: none !important; }
-    .bezel-row-ctrl.slot-bottom .bezel-arrow-down{ display: none !important; }
-    .bezel-row-ctrl.is-row-collapsed .bezel-btn-arrow,
-    .bezel-row-ctrl.is-row-collapsed .bezel-btn-dice{ display: none !important; }
-
-    .bezel-btn-dice{
-      color: #768793;
-      transition: color 0.15s ease, transform 0.15s ease;
-    }
-    .bezel-btn-dice:hover{
-      color: #a8b8c4;
-      transform: scale(1.15);
-    }
-    .bezel-btn-dice:active{
-      transform: scale(0.88);
-      color: #54636d;
-    }
-    .bezel-dice-icon{
-      display: block;
-      pointer-events: none;
-    }
-    .bezel-dice-icon rect{
-      stroke: currentColor;
-      fill: rgba(118, 135, 147, 0.08);
-    }
-    .bezel-dice-icon circle{
-      fill: currentColor;
-    }
-    .bezel-btn-dice.is-alt-view{
-      color: #cbd5e1;
-    }
-    .bezel-btn-dice.is-alt-view rect{
-      stroke: #cbd5e1;
-      fill: rgba(203, 213, 225, 0.15);
-    }
-    .bezel-btn-dice.is-alt-view circle{
-      fill: #cbd5e1;
-    }
-
+    /* The Screen Area - Symmetrical in Casing */
     .screen{
       position: relative;
       flex: 1 1 auto;
@@ -279,8 +216,28 @@
       border-radius: 10px;
       border: 1px solid #000;
       box-shadow: inset 0 0 40px rgba(0,0,0,0.9), inset 0 0 2px #000;
-      padding: clamp(6px, 1.2vh, 12px) clamp(8px, 1.2vw, 14px) clamp(4px, 0.8vh, 8px) clamp(8px, 1.2vw, 14px);
+      padding: clamp(6px, 1.2vh, 12px) clamp(8px, 1.2vw, 14px) clamp(6px, 1vh, 10px) clamp(8px, 1.2vw, 14px);
       overflow: hidden;
+    }
+
+    /* Veils Viewport System */
+    .veil-viewport{
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      flex: 1 1 auto;
+      display: none !important;
+      position: relative;
+    }
+    .veil-viewport.active{
+      display: flex !important;
+    }
+
+    /* ==================== NOVA VEIL STYLES ==================== */
+    #veilNova{
+      flex-direction: column;
+      justify-content: stretch;
+      gap: 0;
     }
 
     .screen-row{
@@ -296,65 +253,16 @@
       transition: flex 0.25s cubic-bezier(0.16, 1, 0.3, 1), min-height 0.25s ease, max-height 0.25s ease;
     }
 
-    #row1:not(.is-row-collapsed){ flex: var(--rh-row1, 1.0) 1 0px !important; }
-    #row2:not(.is-row-collapsed){ flex: var(--rh-row2, 1.25) 1 0px !important; }
-    #row3:not(.is-row-collapsed){ flex: var(--rh-row3, 0.95) 1 0px !important; }
-
-    #row1.is-row-collapsed,
-    #row2.is-row-collapsed,
-    #row3.is-row-collapsed{
-      flex: 0 0 16px !important;
-      min-height: 16px !important;
-      max-height: 16px !important;
-      height: 16px !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      gap: 0 !important;
+    #veilNova.is-resetting .screen-row,
+    #veilNova.is-resetting .tile-card,
+    #veilNova.is-resetting .tier-splitter,
+    #veilNova.is-resetting .col-splitter{
+      transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
 
-    .is-row-collapsed > :not(.row-shutter-bar){
-      display: none !important;
-    }
-    .is-row-collapsed .row-shutter-bar{
-      display: flex !important;
-    }
-
-    .row-shutter-bar{
-      display: none;
-      width: 100%;
-      height: 16px;
-      box-sizing: border-box;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: linear-gradient(180deg, rgba(20, 30, 36, 0.95), rgba(10, 16, 20, 0.95));
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 4px;
-      cursor: pointer;
-      user-select: none;
-      color: var(--text-muted);
-      font-size: 8px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: background 0.18s ease, border-color 0.18s ease;
-    }
-    .row-shutter-bar:hover{
-      background: linear-gradient(180deg, rgba(30, 45, 55, 0.95), rgba(15, 22, 28, 0.95));
-      border-color: rgba(255, 255, 255, 0.25);
-      color: var(--text-main);
-    }
-    .shutter-dot{
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: #877f72;
-    }
-    .shutter-hint{
-      font-size: 7.5px;
-      opacity: 0.6;
-      font-weight: 400;
-    }
+    #row1{ flex: var(--rh-row1, 1.0) 1 0px !important; }
+    #row2{ flex: var(--rh-row2, 1.0) 1 0px !important; }
+    #row3{ flex: var(--rh-row3, 1.0) 1 0px !important; }
 
     .tier-splitter{
       flex: 0 0 6px;
@@ -426,6 +334,196 @@
     #panel3B{ flex: var(--r3-w2, 1) 1 0px; min-width: 0; width: 0; }
     #panel3C{ flex: var(--r3-w3, 1) 1 0px; min-width: 0; width: 0; }
 
+    /* ==================== QUAD VEIL STYLES ==================== */
+    #veilQuad{
+      position: relative;
+      overflow: hidden;
+      --quad-x: 50%;
+      --quad-y: 50%;
+    }
+    #veilQuad.active{
+      display: block !important;
+    }
+
+    #quadPanel1{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: calc(var(--quad-x) - 3px);
+      height: calc(var(--quad-y) - 3px);
+    }
+    #quadPanel2{
+      position: absolute;
+      left: calc(var(--quad-x) + 3px);
+      top: 0;
+      right: 0;
+      height: calc(var(--quad-y) - 3px);
+    }
+    #quadPanel3{
+      position: absolute;
+      left: 0;
+      top: calc(var(--quad-y) + 3px);
+      width: calc(var(--quad-x) - 3px);
+      bottom: 0;
+    }
+    #quadPanel4{
+      position: absolute;
+      left: calc(var(--quad-x) + 3px);
+      top: calc(var(--quad-y) + 3px);
+      right: 0;
+      bottom: 0;
+    }
+
+    .cross-splitter-v{
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(var(--quad-x) - 3px);
+      width: 6px;
+      cursor: col-resize;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+      user-select: none;
+    }
+    .cross-splitter-v:hover, .cross-splitter-v.is-dragging{
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .cross-splitter-v-grip{
+      width: 2px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 1px;
+    }
+
+    .cross-splitter-h{
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(var(--quad-y) - 3px);
+      height: 6px;
+      cursor: row-resize;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+      user-select: none;
+    }
+    .cross-splitter-h:hover, .cross-splitter-h.is-dragging{
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .cross-splitter-h-grip{
+      height: 2px;
+      width: 36px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 1px;
+    }
+
+    .cross-splitter-hub{
+      position: absolute;
+      left: var(--quad-x);
+      top: var(--quad-y);
+      transform: translate(-50%, -50%);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px solid transparent;
+      box-shadow: none;
+      cursor: pointer;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #768793;
+      user-select: none;
+      touch-action: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .cross-splitter-hub:hover{
+      color: #cbd5e1;
+    }
+    .cross-splitter-hub.is-pressing{
+      border-color: rgba(251, 191, 36, 0.75);
+      background: rgba(24, 20, 12, 0.85);
+      color: var(--accent-amber);
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.5), inset 0 0 4px #fbbf24;
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+    .cross-splitter-hub.is-active-drag{
+      cursor: all-scroll !important;
+      border-color: #38bdf8;
+      background: #082f49;
+      color: #38bdf8;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.8), inset 0 0 6px #e0f2fe;
+      transform: translate(-50%, -50%) scale(1.22) !important;
+    }
+    .hub-ring{
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      pointer-events: none;
+    }
+    .cross-splitter-hub.is-pressing .hub-ring{
+      border-color: rgba(251, 191, 36, 0.5);
+      animation: hubPulse 0.3s ease infinite alternate;
+    }
+    .cross-splitter-hub.is-active-drag .hub-ring{
+      border-color: rgba(56, 189, 248, 0.7);
+      animation: hubSpin 2s linear infinite;
+    }
+    @keyframes hubPulse{
+      from{ transform: scale(1); opacity: 0.5; }
+      to{ transform: scale(1.28); opacity: 1; }
+    }
+    @keyframes hubSpin{
+      from{ transform: rotate(0deg); }
+      to{ transform: rotate(360deg); }
+    }
+
+    #veilQuad.is-resetting #quadPanel1,
+    #veilQuad.is-resetting #quadPanel2,
+    #veilQuad.is-resetting #quadPanel3,
+    #veilQuad.is-resetting #quadPanel4,
+    #veilQuad.is-resetting .cross-splitter-v,
+    #veilQuad.is-resetting .cross-splitter-h,
+    #veilQuad.is-resetting .cross-splitter-hub{
+      transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    /* ==================== TRIDENT VEIL STYLES ==================== */
+    #veilTrident{
+      display: none;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: stretch;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      --tri-w1: 1;
+      --tri-w2: 1;
+      --tri-w3: 1;
+    }
+    #veilTrident.active{
+      display: flex !important;
+    }
+
+    #tridentPanel1{ flex: var(--tri-w1, 1) 1 0px; min-width: 0; width: 0; }
+    #tridentPanel2{ flex: var(--tri-w2, 1) 1 0px; min-width: 0; width: 0; }
+    #tridentPanel3{ flex: var(--tri-w3, 1) 1 0px; min-width: 0; width: 0; }
+
+    #veilTrident.is-resetting #tridentPanel1,
+    #veilTrident.is-resetting #tridentPanel2,
+    #veilTrident.is-resetting #tridentPanel3,
+    #veilTrident.is-resetting .col-splitter{
+      transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    /* Common Card Styling */
     .tile-card{
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -458,14 +556,6 @@
       color: var(--text-muted);
       text-transform: uppercase;
     }
-    .tile-badge{
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7.5px;
-      padding: 1.5px 5px;
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-dim);
-    }
 
     .tile-body{
       flex: 1 1 auto;
@@ -477,517 +567,271 @@
       position: relative;
       overflow: hidden;
     }
-
-    .panel-content-wrap{
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 6px;
-    }
-
-    .kpi-grid{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-    .kpi-cell{
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .kpi-label{
-      font-size: 8px;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .kpi-val{
-      font-size: 19px;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-main);
-      line-height: 1.1;
-    }
-    .kpi-val small{
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .kpi-val.highlight{
-      color: var(--accent-green);
-    }
-    .kpi-sub{
-      font-size: 8px;
-      color: var(--text-muted);
-    }
-
-    .status-pill-row{
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding-top: 4px;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-    }
-    .status-indicator{
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent-green);
-    }
-    .status-text{
-      font-size: 8.5px;
-      color: var(--text-muted);
-    }
-
-    .mock-chart-container{
-      flex: 1 1 auto;
-      min-height: 38px;
-      display: flex;
-      align-items: flex-end;
-      padding-bottom: 4px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .mock-chart-bars{
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 4px;
-    }
-    .chart-bar{
-      flex: 1 1 auto;
-      background: linear-gradient(180deg, rgba(56, 189, 248, 0.8), rgba(56, 189, 248, 0.25));
-      border-radius: 2px 2px 0 0;
-      min-width: 4px;
-    }
-    .chart-legend{
-      display: flex;
-      justify-content: space-between;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7.5px;
-      color: var(--text-dim);
-    }
-
-    .metric-list{
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .metric-row{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 3px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    }
-    .m-key{
-      font-size: 8.5px;
-      color: var(--text-muted);
-    }
-    .m-val{
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9.5px;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-    .m-val.highlight{
-      color: var(--accent-blue);
-    }
-
-    .gauge-display{
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .gauge-val-group{
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-    }
-    .gauge-number{
-      font-size: 20px;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-main);
-    }
-    .gauge-unit{
-      font-size: 9px;
-      color: var(--text-dim);
-      font-weight: 600;
-    }
-    .gauge-track{
-      width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .gauge-fill{
-      height: 100%;
-      background: var(--accent-blue);
-      border-radius: 2px;
-    }
-    .data-tag-row{
-      display: flex;
-      gap: 8px;
-      font-size: 7.5px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-dim);
-    }
-
-    .matrix-grid{
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
-    }
-    .matrix-cell{
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 4px;
-      padding: 4px;
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-    .matrix-cell.active{
-      border-color: rgba(56, 189, 248, 0.25);
-    }
-    .node-id{
-      font-size: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-muted);
-    }
-    .node-status{
-      font-size: 7.5px;
-      font-weight: 600;
-      color: var(--accent-green);
-    }
-    .matrix-cell.standby .node-status{
-      color: var(--accent-amber);
-    }
-    .matrix-summary{
-      font-size: 7.5px;
-      color: var(--text-dim);
-      letter-spacing: 0.06em;
-    }
-
-    .log-stream{
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .log-entry{
-      display: flex;
-      gap: 6px;
-      font-size: 8px;
-      line-height: 1.3;
-    }
-    .log-ts{
-      color: var(--text-dim);
-    }
-    .log-msg{
-      color: var(--text-muted);
-    }
-
-    .grid-tray{
-      width: 100%;
-      height: 100%;
-      display: grid;
-      gap: 6px;
-    }
-    #primaryTray{
-      grid-template-columns: repeat(5, 1fr);
-    }
-    #secondaryTray{
-      grid-template-columns: repeat(4, 1fr);
-      display: none;
-    }
-
-    .tray-cell-wrap{
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .tray-num{
-      font-size: 16px;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-main);
-    }
-    .tray-num small{
-      font-size: 9.5px;
-      color: var(--text-muted);
-    }
-    .tray-desc{
-      font-size: 8px;
-      color: var(--text-muted);
-    }
-    .tray-sparkline{
-      height: 14px;
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      padding-top: 2px;
-    }
-    .spark-bar{
-      flex: 1 1 auto;
-      background: var(--accent-blue);
-      opacity: 0.7;
-      border-radius: 1px;
-    }
-
-    .row-swap-anim{
-      animation: rowSwapGlide 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    @keyframes rowSwapGlide{
-      0%{ opacity: 0.7; transform: scale(0.995); }
-      100%{ opacity: 1; transform: scale(1); }
-    }
   </style>
 </head>
 <body>
 
 <div class="device" id="supernodeDevice">
   
+  <!-- Top Chassis Header Strip with 3 Dots Veil Selector -->
   <div class="device-header-strip">
-    <span class="brand-name">SUPERNODE FRAMEWORK</span>
-    <span class="brand-ver">v1.09302026.1832</span>
+    <div class="brand-group">
+      <span class="brand-name">SUPERNODE FRAMEWORK</span>
+      <span class="brand-version-tag">v1.10012026.2247</span>
+    </div>
+    <div class="veil-dots-container" id="veilDotsContainer">
+      <button type="button" class="veil-dot active" data-veil="nova" title="Veil: Nova (Click to switch, Long-press to equalize)" aria-label="Veil: Nova (Click to switch, Long-press to equalize)"></button>
+      <button type="button" class="veil-dot" data-veil="quad" title="Veil: Quad (Click to switch, Long-press to equalize)" aria-label="Veil: Quad (Click to switch, Long-press to equalize)"></button>
+      <button type="button" class="veil-dot" data-veil="trident" title="Veil: Trident (Click to switch, Long-press to equalize)" aria-label="Veil: Trident (Click to switch, Long-press to equalize)"></button>
+    </div>
+    <span class="brand-ver" id="brandStatus">VEIL: NOVA • 9-PANEL</span>
   </div>
 
   <div class="device-body" id="deviceBody">
-    <div class="bezel-rail" id="bezelRail" aria-label="Chassis row controls">
-      
-      <!-- Row 1 Controls -->
-      <div class="bezel-row-ctrl slot-top" id="ctrlRow1" data-row-id="row1" aria-label="Row 1 controls">
-        <button type="button" class="bezel-btn bezel-btn-shutter" title="Roll up row (window shade)" aria-label="Roll up row 1">
-          <span class="bezel-shutter-block"></span>
-        </button>
-        <button type="button" class="bezel-btn bezel-btn-arrow bezel-arrow-up" title="Move row up" aria-label="Move row up">
-          <svg class="bezel-arrow-icon" viewBox="0 0 10 10" width="6.5" height="6.5">
-            <polygon points="5,1 9,8 1,8"/>
-          </svg>
-        </button>
-        <button type="button" class="bezel-btn bezel-btn-arrow bezel-arrow-down" title="Move row down" aria-label="Move row down">
-          <svg class="bezel-arrow-icon" viewBox="0 0 10 10" width="6.5" height="6.5">
-            <polygon points="1,2 9,2 5,9"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Row 2 Controls -->
-      <div class="bezel-row-ctrl slot-mid" id="ctrlRow2" data-row-id="row2" aria-label="Row 2 controls">
-        <button type="button" class="bezel-btn bezel-btn-shutter" title="Roll up row (window shade)" aria-label="Roll up row 2">
-          <span class="bezel-shutter-block"></span>
-        </button>
-        <button type="button" class="bezel-btn bezel-btn-arrow bezel-arrow-up" title="Move row up" aria-label="Move row up">
-          <svg class="bezel-arrow-icon" viewBox="0 0 10 10" width="6.5" height="6.5">
-            <polygon points="5,1 9,8 1,8"/>
-          </svg>
-        </button>
-        <button type="button" class="bezel-btn bezel-btn-arrow bezel-arrow-down" title="Move row down" aria-label="Move row down">
-          <svg class="bezel-arrow-icon" viewBox="0 0 10 10" width="6.5" height="6.5">
-            <polygon points="1,2 9,2 5,9"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Row 3 Controls -->
-      <div class="bezel-row-ctrl slot-bottom" id="ctrlRow3" data-row-id="row3" aria-label="Row 3 controls">
-        <button type="button" class="bezel-btn bezel-btn-shutter" title="Roll up row (window shade)" aria-label="Roll up row 3">
-          <span class="bezel-shutter-block"></span>
-        </button>
-        <button type="button" class="bezel-btn bezel-btn-arrow bezel-arrow-up" title="Move row up" aria-label="Move row up">
-          <svg class="bezel-arrow-icon" viewBox="0 0 10 10" width="6.5" height="6.5">
-            <polygon points="5,1 9,8 1,8"/>
-          </svg>
-        </button>
-        <button type="button" class="bezel-btn bezel-btn-arrow bezel-arrow-down" title="Move row down" aria-label="Move row down">
-          <svg class="bezel-arrow-icon" viewBox="0 0 10 10" width="6.5" height="6.5">
-            <polygon points="1,2 9,2 5,9"/>
-          </svg>
-        </button>
-      </div>
-
-    </div>
-
+    
     <!-- Main Screen Display -->
     <div class="screen" id="screen">
       
-      <!-- ==================== TIER ROW 1 (3-COLUMNS FULL WIDTH) ==================== -->
-      <div class="screen-row" id="row1">
-        <div class="row-shutter-bar" id="shutterRow1" role="button" tabindex="0" title="Click to unroll Tier 1">
-          <span class="shutter-dot"></span>
-          <span>TIER 1 (ROW 1) <span class="shutter-hint">(click to unroll)</span></span>
+      <!-- ==================== VEIL 1: NOVA (9-PANEL 3x3 MATRIX) ==================== -->
+      <div class="veil-viewport active" id="veilNova">
+        
+        <!-- TIER ROW 1 (3-COLUMNS FULL WIDTH) -->
+        <div class="screen-row" id="row1">
+          <div class="tile-card" id="panel1A">
+            <div class="tile-header">
+              <span class="tile-title">1</span>
+            </div>
+            <div class="tile-body" id="body1A"></div>
+          </div>
+
+          <div class="col-splitter" data-row="row1" data-seam="0" role="separator" aria-orientation="vertical" title="Drag to resize width">
+            <div class="col-splitter-grip"></div>
+          </div>
+
+          <div class="tile-card" id="panel1B">
+            <div class="tile-header">
+              <span class="tile-title">2</span>
+            </div>
+            <div class="tile-body" id="body1B"></div>
+          </div>
+
+          <div class="col-splitter" data-row="row1" data-seam="1" role="separator" aria-orientation="vertical" title="Drag to resize width">
+            <div class="col-splitter-grip"></div>
+          </div>
+
+          <div class="tile-card" id="panel1C">
+            <div class="tile-header">
+              <span class="tile-title">3</span>
+            </div>
+            <div class="tile-body" id="body1C"></div>
+          </div>
         </div>
 
-        <div class="tile-card" id="panel1A">
+        <!-- TIER SPLITTER 0 -->
+        <div class="tier-splitter" id="tierSplitter0" data-tier-seam="0" role="separator" aria-orientation="horizontal" title="Drag to resize tier heights">
+          <div class="tier-splitter-grip"></div>
+        </div>
+
+        <!-- TIER ROW 2 (3-COLUMNS FULL WIDTH) -->
+        <div class="screen-row" id="row2">
+          <div class="tile-card" id="panel2A">
+            <div class="tile-header">
+              <span class="tile-title">4</span>
+            </div>
+            <div class="tile-body" id="body2A"></div>
+          </div>
+
+          <div class="col-splitter" data-row="row2" data-seam="0" role="separator" aria-orientation="vertical" title="Drag to resize width">
+            <div class="col-splitter-grip"></div>
+          </div>
+
+          <div class="tile-card" id="panel2B">
+            <div class="tile-header">
+              <span class="tile-title">5</span>
+            </div>
+            <div class="tile-body" id="body2B"></div>
+          </div>
+
+          <div class="col-splitter" data-row="row2" data-seam="1" role="separator" aria-orientation="vertical" title="Drag to resize width">
+            <div class="col-splitter-grip"></div>
+          </div>
+
+          <div class="tile-card" id="panel2C">
+            <div class="tile-header">
+              <span class="tile-title">6</span>
+            </div>
+            <div class="tile-body" id="body2C"></div>
+          </div>
+        </div>
+
+        <!-- TIER SPLITTER 1 -->
+        <div class="tier-splitter" id="tierSplitter1" data-tier-seam="1" role="separator" aria-orientation="horizontal" title="Drag to resize tier heights">
+          <div class="tier-splitter-grip"></div>
+        </div>
+
+        <!-- TIER ROW 3 (3-COLUMNS FULL WIDTH) -->
+        <div class="screen-row" id="row3">
+          <div class="tile-card" id="panel3A">
+            <div class="tile-header">
+              <span class="tile-title">7</span>
+            </div>
+            <div class="tile-body" id="body3A"></div>
+          </div>
+
+          <div class="col-splitter" data-row="row3" data-seam="0" role="separator" aria-orientation="vertical" title="Drag to resize width">
+            <div class="col-splitter-grip"></div>
+          </div>
+
+          <div class="tile-card" id="panel3B">
+            <div class="tile-header">
+              <span class="tile-title">8</span>
+            </div>
+            <div class="tile-body" id="body3B"></div>
+          </div>
+
+          <div class="col-splitter" data-row="row3" data-seam="1" role="separator" aria-orientation="vertical" title="Drag to resize width">
+            <div class="col-splitter-grip"></div>
+          </div>
+
+          <div class="tile-card" id="panel3C">
+            <div class="tile-header">
+              <span class="tile-title">9</span>
+            </div>
+            <div class="tile-body" id="body3C"></div>
+          </div>
+        </div>
+
+      </div> <!-- #veilNova -->
+
+      <!-- ==================== VEIL: QUAD (4-PANEL QUAD MATRIX) ==================== -->
+      <div class="veil-viewport" id="veilQuad">
+        
+        <!-- Panel 1 (Top Left) -->
+        <div class="tile-card" id="quadPanel1">
           <div class="tile-header">
             <span class="tile-title">1</span>
           </div>
-          <div class="tile-body" id="body1A"></div>
+          <div class="tile-body" id="quadBody1"></div>
         </div>
 
-        <div class="col-splitter" data-row="row1" data-seam="0" role="separator" aria-orientation="vertical" title="Drag to resize width">
-          <div class="col-splitter-grip"></div>
-        </div>
-
-        <div class="tile-card" id="panel1B">
+        <!-- Panel 2 (Top Right) -->
+        <div class="tile-card" id="quadPanel2">
           <div class="tile-header">
             <span class="tile-title">2</span>
           </div>
-          <div class="tile-body" id="body1B"></div>
+          <div class="tile-body" id="quadBody2"></div>
         </div>
 
-        <div class="col-splitter" data-row="row1" data-seam="1" role="separator" aria-orientation="vertical" title="Drag to resize width">
-          <div class="col-splitter-grip"></div>
-        </div>
-
-        <div class="tile-card" id="panel1C">
+        <!-- Panel 3 (Bottom Left) -->
+        <div class="tile-card" id="quadPanel3">
           <div class="tile-header">
             <span class="tile-title">3</span>
           </div>
-          <div class="tile-body" id="body1C"></div>
-        </div>
-      </div>
-
-      <!-- TIER SPLITTER 0 -->
-      <div class="tier-splitter" id="tierSplitter0" data-tier-seam="0" role="separator" aria-orientation="horizontal" title="Drag to resize tier heights">
-        <div class="tier-splitter-grip"></div>
-      </div>
-
-      <!-- ==================== TIER ROW 2 (3-COLUMNS FULL WIDTH) ==================== -->
-      <div class="screen-row" id="row2">
-        <div class="row-shutter-bar" id="shutterRow2" role="button" tabindex="0" title="Click to unroll Tier 2">
-          <span class="shutter-dot"></span>
-          <span>TIER 2 (ROW 2) <span class="shutter-hint">(click to unroll)</span></span>
+          <div class="tile-body" id="quadBody3"></div>
         </div>
 
-        <div class="tile-card" id="panel2A">
+        <!-- Panel 4 (Bottom Right) -->
+        <div class="tile-card" id="quadPanel4">
           <div class="tile-header">
             <span class="tile-title">4</span>
           </div>
-          <div class="tile-body" id="body2A"></div>
+          <div class="tile-body" id="quadBody4"></div>
         </div>
 
-        <div class="col-splitter" data-row="row2" data-seam="0" role="separator" aria-orientation="vertical" title="Drag to resize width">
+        <!-- Vertical Cross Splitter Track -->
+        <div class="cross-splitter-v" id="quadSplitV" role="separator" aria-orientation="vertical" title="Drag to resize columns (or hold center crosshair for 2D)">
+          <div class="cross-splitter-v-grip"></div>
+        </div>
+
+        <!-- Horizontal Cross Splitter Track -->
+        <div class="cross-splitter-h" id="quadSplitH" role="separator" aria-orientation="horizontal" title="Drag to resize rows (or hold center crosshair for 2D)">
+          <div class="cross-splitter-h-grip"></div>
+        </div>
+
+        <!-- Center Cross Splitter Hub (Anchor) -->
+        <div class="cross-splitter-hub" id="quadCrossHub" role="button" tabindex="0" title="Long-press and drag center anchor to dynamically resize all 4 panels in any 2D direction" aria-label="Center cross splitter anchor">
+          <div class="hub-ring"></div>
+          <svg class="hub-cross-icon" viewBox="0 0 24 24" width="13" height="13">
+            <polygon points="12,2 15,6 9,6" fill="currentColor"/>
+            <polygon points="12,22 15,18 9,18" fill="currentColor"/>
+            <polygon points="2,12 6,9 6,15" fill="currentColor"/>
+            <polygon points="22,12 18,9 18,15" fill="currentColor"/>
+            <circle cx="12" cy="12" r="2.2" fill="currentColor"/>
+          </svg>
+        </div>
+
+      </div> <!-- #veilQuad -->
+
+      <!-- ==================== VEIL 3: TRIDENT (3-COLUMN MATRIX) ==================== -->
+      <div class="veil-viewport" id="veilTrident">
+        
+        <!-- Column 1 (Left) -->
+        <div class="tile-card" id="tridentPanel1">
+          <div class="tile-header">
+            <span class="tile-title">1</span>
+          </div>
+          <div class="tile-body" id="tridentBody1"></div>
+        </div>
+
+        <!-- Vertical Column Splitter 0 -->
+        <div class="col-splitter" id="tridentSplit0" data-trident-seam="0" role="separator" aria-orientation="vertical" title="Drag to resize width (double-click to reset)">
           <div class="col-splitter-grip"></div>
         </div>
 
-        <div class="tile-card" id="panel2B">
+        <!-- Column 2 (Center) -->
+        <div class="tile-card" id="tridentPanel2">
           <div class="tile-header">
-            <span class="tile-title">5</span>
+            <span class="tile-title">2</span>
           </div>
-          <div class="tile-body" id="body2B"></div>
+          <div class="tile-body" id="tridentBody2"></div>
         </div>
 
-        <div class="col-splitter" data-row="row2" data-seam="1" role="separator" aria-orientation="vertical" title="Drag to resize width">
+        <!-- Vertical Column Splitter 1 -->
+        <div class="col-splitter" id="tridentSplit1" data-trident-seam="1" role="separator" aria-orientation="vertical" title="Drag to resize width (double-click to reset)">
           <div class="col-splitter-grip"></div>
         </div>
 
-        <div class="tile-card" id="panel2C">
+        <!-- Column 3 (Right) -->
+        <div class="tile-card" id="tridentPanel3">
           <div class="tile-header">
-            <span class="tile-title">6</span>
+            <span class="tile-title">3</span>
           </div>
-          <div class="tile-body" id="body2C"></div>
-        </div>
-      </div>
-
-      <!-- TIER SPLITTER 1 -->
-      <div class="tier-splitter" id="tierSplitter1" data-tier-seam="1" role="separator" aria-orientation="horizontal" title="Drag to resize tier heights">
-        <div class="tier-splitter-grip"></div>
-      </div>
-
-      <!-- ==================== TIER ROW 3 (3-COLUMNS FULL WIDTH) ==================== -->
-      <div class="screen-row" id="row3">
-        <div class="row-shutter-bar" id="shutterRow3" role="button" tabindex="0" title="Click to unroll Tier 3">
-          <span class="shutter-dot"></span>
-          <span id="shutterRow3Label">TIER 3 (ROW 3) <span class="shutter-hint">(click to unroll)</span></span>
+          <div class="tile-body" id="tridentBody3"></div>
         </div>
 
-        <div class="tile-card" id="panel3A">
-          <div class="tile-header">
-            <span class="tile-title">7</span>
-          </div>
-          <div class="tile-body" id="body3A"></div>
-        </div>
-
-        <div class="col-splitter" data-row="row3" data-seam="0" role="separator" aria-orientation="vertical" title="Drag to resize width">
-          <div class="col-splitter-grip"></div>
-        </div>
-
-        <div class="tile-card" id="panel3B">
-          <div class="tile-header">
-            <span class="tile-title">8</span>
-          </div>
-          <div class="tile-body" id="body3B"></div>
-        </div>
-
-        <div class="col-splitter" data-row="row3" data-seam="1" role="separator" aria-orientation="vertical" title="Drag to resize width">
-          <div class="col-splitter-grip"></div>
-        </div>
-
-        <div class="tile-card" id="panel3C">
-          <div class="tile-header">
-            <span class="tile-title">9</span>
-          </div>
-          <div class="tile-body" id="body3C"></div>
-        </div>
-      </div>
+      </div> <!-- #veilTrident -->
 
     </div> <!-- #screen -->
   </div> <!-- #deviceBody -->
 
 </div> <!-- #supernodeDevice -->
 
-<!-- Load Modular Block JavaScript Components from js/ folder -->
-<script src="js/panel1A.js"></script>
-<script src="js/panel1B.js"></script>
-<script src="js/panel1C.js"></script>
-<script src="js/panel2A.js"></script>
-<script src="js/panel2B.js"></script>
-<script src="js/panel2C.js"></script>
-<script src="js/panel3A.js"></script>
-<script src="js/panel3B.js"></script>
-<script src="js/panel3C.js"></script>
+<!-- Load Modular Block JavaScript Components from veils folder -->
+<script src="veils/nova/panel1.js"></script>
+<script src="veils/nova/panel2.js"></script>
+<script src="veils/nova/panel3.js"></script>
+<script src="veils/nova/panel4.js"></script>
+<script src="veils/nova/panel5.js"></script>
+<script src="veils/nova/panel6.js"></script>
+<script src="veils/nova/panel7.js"></script>
+<script src="veils/nova/panel8.js"></script>
+<script src="veils/nova/panel9.js"></script>
+<script src="veils/quad/panel1.js"></script>
+<script src="veils/quad/panel2.js"></script>
+<script src="veils/quad/panel3.js"></script>
+<script src="veils/quad/panel4.js"></script>
+<script src="veils/trident/panel1.js"></script>
+<script src="veils/trident/panel2.js"></script>
+<script src="veils/trident/panel3.js"></script>
 
 <script>
 (function(){
   'use strict';
 
-  const DEFAULT_ROW_ORDER = ['row1', 'row2', 'row3'];
+  /* ==================== NOVA VEIL ROW & COL LOGIC ==================== */
   const VALID_ROW_IDS = ['row1', 'row2', 'row3'];
   const DEFAULT_ROW_HEIGHTS = { row1: 1.0, row2: 1.0, row3: 1.0 };
   const DEFAULT_COL_WEIGHTS = [1, 1, 1];
-
-  let currentRowOrder = [...DEFAULT_ROW_ORDER];
-  let rowCollapsedState = { row1: false, row2: false, row3: false };
-  let activeTrayView = 'primary';
-
-  try {
-    const savedOrder = JSON.parse(localStorage.getItem('supernode_row_order'));
-    if(Array.isArray(savedOrder) && savedOrder.length === 3 && savedOrder.every(id => VALID_ROW_IDS.includes(id))){
-      currentRowOrder = savedOrder;
-    }
-  } catch(e){}
-
-  try {
-    const savedCollapsed = JSON.parse(localStorage.getItem('supernode_row_collapsed'));
-    if(savedCollapsed && typeof savedCollapsed === 'object'){
-      VALID_ROW_IDS.forEach(id => {
-        if(typeof savedCollapsed[id] === 'boolean') rowCollapsedState[id] = savedCollapsed[id];
-      });
-    }
-  } catch(e){}
-
-  try {
-    const savedTray = localStorage.getItem('supernode_tray_view');
-    if(savedTray === 'secondary') activeTrayView = 'secondary';
-  } catch(e){}
 
   function loadRowHeights(){
     try {
@@ -1037,6 +881,28 @@
   applyColWeights('row2', colWeights.row2);
   applyColWeights('row3', colWeights.row3);
 
+  function resetNova(){
+    currentRowHeights = { ...DEFAULT_ROW_HEIGHTS };
+    applyRowHeights(currentRowHeights);
+    try {
+      localStorage.setItem('supernode_row_heights', JSON.stringify(currentRowHeights));
+    } catch(err){}
+
+    VALID_ROW_IDS.forEach(rowKey => {
+      colWeights[rowKey] = [...DEFAULT_COL_WEIGHTS];
+      applyColWeights(rowKey, colWeights[rowKey]);
+      try {
+        localStorage.setItem(`supernode_${rowKey}_weights`, JSON.stringify(colWeights[rowKey]));
+      } catch(err){}
+    });
+
+    const novaEl = document.getElementById('veilNova');
+    if(novaEl){
+      novaEl.classList.add('is-resetting');
+      setTimeout(() => novaEl.classList.remove('is-resetting'), 270);
+    }
+  }
+
   function initTierSplitters(){
     const splitters = document.querySelectorAll('.tier-splitter');
 
@@ -1049,11 +915,8 @@
         const startY = e.clientY;
         const seamIdx = parseInt(sp.dataset.tierSeam, 10);
         
-        const activeRows = currentRowOrder.filter(id => !rowCollapsedState[id]);
-        if(activeRows.length < 2) return;
-
-        const rowAboveId = activeRows[seamIdx];
-        const rowBelowId = activeRows[seamIdx + 1];
+        const rowAboveId = VALID_ROW_IDS[seamIdx];
+        const rowBelowId = VALID_ROW_IDS[seamIdx + 1];
         if(!rowAboveId || !rowBelowId) return;
 
         const rowAboveEl = document.getElementById(rowAboveId);
@@ -1083,7 +946,7 @@
 
         const onPointerUp = (ev) => {
           sp.classList.remove('is-dragging');
-          sp.releasePointerCapture(ev.pointerId);
+          try { sp.releasePointerCapture(ev.pointerId); } catch(err){}
           window.removeEventListener('pointermove', onPointerMove);
           window.removeEventListener('pointerup', onPointerUp);
           try {
@@ -1148,7 +1011,7 @@
 
         const onPointerUp = (ev) => {
           sp.classList.remove('is-dragging');
-          sp.releasePointerCapture(ev.pointerId);
+          try { sp.releasePointerCapture(ev.pointerId); } catch(err){}
           window.removeEventListener('pointermove', onPointerMove);
           window.removeEventListener('pointerup', onPointerUp);
           try {
@@ -1171,200 +1034,365 @@
     });
   }
 
-  function updateRowCollapseUI(animate = false){
-    const screenEl = document.getElementById('screen');
-    const bezelRail = document.getElementById('bezelRail');
-    if(!screenEl || !bezelRail) return;
-
-    const collapsedIds = currentRowOrder.filter(id => !!rowCollapsedState[id]);
-    const activeIds = currentRowOrder.filter(id => !rowCollapsedState[id]);
-    const displayOrder = [...collapsedIds, ...activeIds];
-
-    displayOrder.forEach(id => {
-      const el = document.getElementById(id);
-      if(el && screenEl.contains(el)){
-        screenEl.appendChild(el);
-        if(animate){
-          el.classList.remove('row-swap-anim');
-          void el.offsetWidth;
-          el.classList.add('row-swap-anim');
-        }
-      }
-
-      const ctrlId = `ctrl${id.charAt(0).toUpperCase() + id.slice(1)}`;
-      const ctrlEl = document.getElementById(ctrlId);
-      if(ctrlEl && bezelRail.contains(ctrlEl)){
-        bezelRail.appendChild(ctrlEl);
-      }
-    });
-
-    VALID_ROW_IDS.forEach(rowId => {
-      const rowEl = document.getElementById(rowId);
-      const isCollapsed = !!rowCollapsedState[rowId];
-      if(!rowEl) return;
-
-      rowEl.classList.toggle('is-row-collapsed', isCollapsed);
-
-      const ctrlId = `ctrl${rowId.charAt(0).toUpperCase() + rowId.slice(1)}`;
-      const ctrlEl = document.getElementById(ctrlId);
-      if(ctrlEl){
-        ctrlEl.classList.toggle('is-row-collapsed', isCollapsed);
-        const toggleBtn = ctrlEl.querySelector('.bezel-btn-shutter');
-        if(toggleBtn){
-          toggleBtn.title = isCollapsed ? 'Unroll row' : 'Roll up row';
-          toggleBtn.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
-        }
-      }
-    });
-
-    updateArrowControls();
-    syncTierSplittersVisibility();
-  }
-
-  function toggleRowCollapse(rowId){
-    rowCollapsedState[rowId] = !rowCollapsedState[rowId];
-    try {
-      localStorage.setItem('supernode_row_collapsed', JSON.stringify(rowCollapsedState));
-    } catch(e){}
-    updateRowCollapseUI(true);
-  }
-
-  function updateArrowControls(){
-    const slotClasses = ['slot-top', 'slot-mid', 'slot-bottom'];
-    const activeIds = currentRowOrder.filter(id => !rowCollapsedState[id]);
-
-    currentRowOrder.forEach((rowId, index) => {
-      const ctrlId = `ctrl${rowId.charAt(0).toUpperCase() + rowId.slice(1)}`;
-      const ctrlEl = document.getElementById(ctrlId);
-      if(!ctrlEl) return;
-
-      slotClasses.forEach(c => ctrlEl.classList.remove(c));
-      ctrlEl.classList.add(slotClasses[index]);
-
-      const isCollapsed = !!rowCollapsedState[rowId];
-      const upBtn = ctrlEl.querySelector('.bezel-arrow-up');
-      const downBtn = ctrlEl.querySelector('.bezel-arrow-down');
-
-      if(!isCollapsed){
-        const activeIdx = activeIds.indexOf(rowId);
-        if(upBtn) upBtn.style.display = activeIdx > 0 ? 'inline-flex' : 'none';
-        if(downBtn) downBtn.style.display = (activeIdx >= 0 && activeIdx < activeIds.length - 1) ? 'inline-flex' : 'none';
-      }
-    });
-  }
-
-  function syncTierSplittersVisibility(){
-    const sp0 = document.getElementById('tierSplitter0');
-    const sp1 = document.getElementById('tierSplitter1');
-    const screenEl = document.getElementById('screen');
-    if(!sp0 || !sp1 || !screenEl) return;
-
-    const activeRows = currentRowOrder.filter(id => !rowCollapsedState[id]);
-
-    if(activeRows.length <= 1){
-      sp0.style.display = 'none';
-      sp1.style.display = 'none';
-    } else if(activeRows.length === 2){
-      sp0.style.display = 'flex';
-      sp1.style.display = 'none';
-      const firstRowEl = document.getElementById(activeRows[0]);
-      if(firstRowEl) firstRowEl.after(sp0);
-    } else {
-      sp0.style.display = 'flex';
-      sp1.style.display = 'flex';
-      const r0 = document.getElementById(activeRows[0]);
-      const r1 = document.getElementById(activeRows[1]);
-      if(r0) r0.after(sp0);
-      if(r1) r1.after(sp1);
+  /* ==================== VEIL SWITCHING SYSTEM ==================== */
+  const VALID_VEILS = ['nova', 'quad', 'trident'];
+  let currentActiveVeil = 'nova';
+  try {
+    const savedVeil = localStorage.getItem('supernode_active_veil');
+    if (VALID_VEILS.includes(savedVeil)) {
+      currentActiveVeil = savedVeil;
     }
-  }
+  } catch(e){}
 
-  function moveRow(rowId, direction){
-    const activeIds = currentRowOrder.filter(id => !rowCollapsedState[id]);
-    const activeIdx = activeIds.indexOf(rowId);
-    if(activeIdx === -1) return;
-
-    if(direction === 'up' && activeIdx > 0){
-      const targetId = activeIds[activeIdx - 1];
-      const idxA = currentRowOrder.indexOf(rowId);
-      const idxB = currentRowOrder.indexOf(targetId);
-      const newOrder = [...currentRowOrder];
-      newOrder[idxA] = targetId;
-      newOrder[idxB] = rowId;
-      applyNewRowOrder(newOrder);
-    } else if(direction === 'down' && activeIdx < activeIds.length - 1){
-      const targetId = activeIds[activeIdx + 1];
-      const idxA = currentRowOrder.indexOf(rowId);
-      const idxB = currentRowOrder.indexOf(targetId);
-      const newOrder = [...currentRowOrder];
-      newOrder[idxA] = targetId;
-      newOrder[idxB] = rowId;
-      applyNewRowOrder(newOrder);
-    }
-  }
-
-  function applyNewRowOrder(newOrder){
-    currentRowOrder = newOrder;
+  function switchVeil(veilName){
+    if(!VALID_VEILS.includes(veilName)) return;
+    currentActiveVeil = veilName;
     try {
-      localStorage.setItem('supernode_row_order', JSON.stringify(currentRowOrder));
+      localStorage.setItem('supernode_active_veil', currentActiveVeil);
     } catch(e){}
-    updateRowCollapseUI(true);
+
+    const vNova = document.getElementById('veilNova');
+    const vQuad = document.getElementById('veilQuad');
+    const vTrident = document.getElementById('veilTrident');
+    const dots = document.querySelectorAll('.veil-dot');
+    const status = document.getElementById('brandStatus');
+
+    if(vNova) vNova.classList.toggle('active', veilName === 'nova');
+    if(vQuad) vQuad.classList.toggle('active', veilName === 'quad');
+    if(vTrident) vTrident.classList.toggle('active', veilName === 'trident');
+
+    if(status){
+      if(veilName === 'nova') status.textContent = 'VEIL: NOVA • 9-PANEL';
+      else if(veilName === 'quad') status.textContent = 'VEIL: QUAD • 4-PANEL';
+      else if(veilName === 'trident') status.textContent = 'VEIL: TRIDENT • 3-COLUMN';
+    }
+
+    dots.forEach(d => {
+      const target = d.dataset.veil;
+      d.classList.toggle('active', target === veilName);
+    });
   }
 
-  function bindBezelControls(){
-    VALID_ROW_IDS.forEach(rowId => {
-      const ctrlId = `ctrl${rowId.charAt(0).toUpperCase() + rowId.slice(1)}`;
-      const ctrlEl = document.getElementById(ctrlId);
-      if(!ctrlEl) return;
+  function initVeilSelector(){
+    const dots = document.querySelectorAll('.veil-dot');
+    dots.forEach(d => {
+      let pressTimer = null;
+      let isLongPress = false;
+      let startX = 0;
+      let startY = 0;
 
-      const toggleBtn = ctrlEl.querySelector('.bezel-btn-shutter');
-      const upBtn = ctrlEl.querySelector('.bezel-arrow-up');
-      const downBtn = ctrlEl.querySelector('.bezel-arrow-down');
+      d.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        d.setPointerCapture(e.pointerId);
+        isLongPress = false;
+        startX = e.clientX;
+        startY = e.clientY;
+        d.classList.add('is-pressing');
 
-      if(toggleBtn){
-        toggleBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          toggleRowCollapse(rowId);
-        });
-      }
-      if(upBtn){
-        upBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          moveRow(rowId, 'up');
-        });
-      }
-      if(downBtn){
-        downBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          moveRow(rowId, 'down');
-        });
-      }
+        pressTimer = setTimeout(() => {
+          isLongPress = true;
+          d.classList.remove('is-pressing');
+          const target = d.dataset.veil;
 
-      ctrlEl.addEventListener('dblclick', (e) => {
-        e.stopPropagation();
-        applyNewRowOrder([...DEFAULT_ROW_ORDER]);
+          // Switch to veil if not active
+          switchVeil(target);
+
+          // Equalize veil sizing
+          if(target === 'nova') resetNova();
+          else if(target === 'quad') resetQuad();
+          else if(target === 'trident') resetTrident();
+
+          // Visual confirmation pulse
+          d.classList.add('is-equalized');
+          setTimeout(() => d.classList.remove('is-equalized'), 500);
+        }, 420); // 420ms long-press threshold
       });
 
-      const shutterBar = document.getElementById(`shutter${rowId.charAt(0).toUpperCase() + rowId.slice(1)}`);
-      if(shutterBar){
-        shutterBar.addEventListener('click', () => {
-          toggleRowCollapse(rowId);
-        });
-      }
+      d.addEventListener('pointermove', (e) => {
+        if(!isLongPress && Math.hypot(e.clientX - startX, e.clientY - startY) > 8){
+          clearTimeout(pressTimer);
+          d.classList.remove('is-pressing');
+        }
+      });
+
+      const onPointerEnd = (e) => {
+        clearTimeout(pressTimer);
+        d.classList.remove('is-pressing');
+        try { d.releasePointerCapture(e.pointerId); } catch(err){}
+
+        if(!isLongPress){
+          const target = d.dataset.veil;
+          if(VALID_VEILS.includes(target)){
+            switchVeil(target);
+          }
+        }
+      };
+
+      d.addEventListener('pointerup', onPointerEnd);
+      d.addEventListener('pointercancel', onPointerEnd);
     });
   }
 
+  /* ==================== QUAD VEIL CROSS SPLITTER ==================== */
+  function initQuadSplitter(){
+    const quadEl = document.getElementById('veilQuad');
+    const hub = document.getElementById('quadCrossHub');
+    const splitV = document.getElementById('quadSplitV');
+    const splitH = document.getElementById('quadSplitH');
+    if(!quadEl || !hub) return;
+
+    let savedSplit = { x: 50, y: 50 };
+    try {
+      const parsed = JSON.parse(localStorage.getItem('supernode_quad_split'));
+      if(parsed && typeof parsed.x === 'number' && typeof parsed.y === 'number'){
+        savedSplit = parsed;
+      }
+    } catch(e){}
+
+    function setQuadSplit(pctX, pctY, smooth = false){
+      pctX = Math.max(12, Math.min(88, pctX));
+      pctY = Math.max(12, Math.min(88, pctY));
+      if(smooth){
+        quadEl.classList.add('is-resetting');
+        setTimeout(() => quadEl.classList.remove('is-resetting'), 270);
+      }
+      quadEl.style.setProperty('--quad-x', `${pctX}%`);
+      quadEl.style.setProperty('--quad-y', `${pctY}%`);
+      savedSplit = { x: pctX, y: pctY };
+    }
+
+    setQuadSplit(savedSplit.x, savedSplit.y);
+
+    function getBounds(){
+      const rect = quadEl.getBoundingClientRect();
+      const minW = 60; // minimum panel size matching Nova 3-cols
+      const minH = 50; // minimum panel size matching Nova 3-rows
+      const minX = minW;
+      const maxX = Math.max(minW + 20, rect.width - minW);
+      const minY = minH;
+      const maxY = Math.max(minH + 20, rect.height - minH);
+      return { rect, minX, maxX, minY, maxY };
+    }
+
+    function resetToEvenQuads(){
+      setQuadSplit(50, 50, true);
+      try {
+        localStorage.setItem('supernode_quad_split', JSON.stringify({ x: 50, y: 50 }));
+      } catch(err){}
+    }
+
+    window.resetQuad = resetToEvenQuads;
+
+    // Direct multi-directional 2D drag on center cross hub (no long press delay)
+    hub.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      hub.setPointerCapture(e.pointerId);
+      hub.classList.add('is-active-drag');
+
+      const onPointerMove = (ev) => {
+        const { rect, minX, maxX, minY, maxY } = getBounds();
+        const clientX = Math.max(rect.left + minX, Math.min(rect.left + maxX, ev.clientX));
+        const clientY = Math.max(rect.top + minY, Math.min(rect.top + maxY, ev.clientY));
+
+        const pctX = ((clientX - rect.left) / rect.width) * 100;
+        const pctY = ((clientY - rect.top) / rect.height) * 100;
+        setQuadSplit(+pctX.toFixed(2), +pctY.toFixed(2));
+      };
+
+      const onPointerUp = (ev) => {
+        hub.classList.remove('is-active-drag');
+        try { hub.releasePointerCapture(ev.pointerId); } catch(err){}
+        window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('pointerup', onPointerUp);
+        try {
+          localStorage.setItem('supernode_quad_split', JSON.stringify(savedSplit));
+        } catch(err){}
+      };
+
+      window.addEventListener('pointermove', onPointerMove);
+      window.addEventListener('pointerup', onPointerUp);
+    });
+
+    // Vertical splitter track drag (X only)
+    if(splitV){
+      splitV.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        splitV.setPointerCapture(e.pointerId);
+        splitV.classList.add('is-dragging');
+        const onMove = (ev) => {
+          const { rect, minX, maxX } = getBounds();
+          const clientX = Math.max(rect.left + minX, Math.min(rect.left + maxX, ev.clientX));
+          const pctX = ((clientX - rect.left) / rect.width) * 100;
+          setQuadSplit(+pctX.toFixed(2), savedSplit.y);
+        };
+        const onUp = (ev) => {
+          splitV.classList.remove('is-dragging');
+          try { splitV.releasePointerCapture(ev.pointerId); } catch(err){}
+          window.removeEventListener('pointermove', onMove);
+          window.removeEventListener('pointerup', onUp);
+          try {
+            localStorage.setItem('supernode_quad_split', JSON.stringify(savedSplit));
+          } catch(err){}
+        };
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+      });
+
+      splitV.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        resetToEvenQuads();
+      });
+    }
+
+    // Horizontal splitter track drag (Y only)
+    if(splitH){
+      splitH.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        splitH.setPointerCapture(e.pointerId);
+        splitH.classList.add('is-dragging');
+        const onMove = (ev) => {
+          const { rect, minY, maxY } = getBounds();
+          const clientY = Math.max(rect.top + minY, Math.min(rect.top + maxY, ev.clientY));
+          const pctY = ((clientY - rect.top) / rect.height) * 100;
+          setQuadSplit(savedSplit.x, +pctY.toFixed(2));
+        };
+        const onUp = (ev) => {
+          splitH.classList.remove('is-dragging');
+          try { splitH.releasePointerCapture(ev.pointerId); } catch(err){}
+          window.removeEventListener('pointermove', onMove);
+          window.removeEventListener('pointerup', onUp);
+          try {
+            localStorage.setItem('supernode_quad_split', JSON.stringify(savedSplit));
+          } catch(err){}
+        };
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+      });
+
+      splitH.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        resetToEvenQuads();
+      });
+    }
+
+    // Double-click center hub resets to equal 50% / 50%
+    hub.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+      resetToEvenQuads();
+    });
+  }
+
+  /* ==================== TRIDENT VEIL SPLITTER ==================== */
+  function initTridentSplitters(){
+    const tridentEl = document.getElementById('veilTrident');
+    if(!tridentEl) return;
+
+    let tridentWeights = [1, 1, 1];
+    try {
+      const saved = JSON.parse(localStorage.getItem('supernode_trident_weights'));
+      if(Array.isArray(saved) && saved.length === 3 && saved.every(n => typeof n === 'number' && n > 0.05)){
+        tridentWeights = saved;
+      }
+    } catch(e){}
+
+    function applyTridentWeights(weights, smooth = false){
+      if(smooth){
+        tridentEl.classList.add('is-resetting');
+        setTimeout(() => tridentEl.classList.remove('is-resetting'), 270);
+      }
+      tridentEl.style.setProperty('--tri-w1', String(weights[0]));
+      tridentEl.style.setProperty('--tri-w2', String(weights[1]));
+      tridentEl.style.setProperty('--tri-w3', String(weights[2]));
+      tridentWeights = [...weights];
+    }
+
+    applyTridentWeights(tridentWeights);
+
+    function resetTrident(){
+      applyTridentWeights([1, 1, 1], true);
+      try {
+        localStorage.setItem('supernode_trident_weights', JSON.stringify([1, 1, 1]));
+      } catch(err){}
+    }
+    window.resetTrident = resetTrident;
+
+    const splitters = tridentEl.querySelectorAll('.col-splitter');
+    splitters.forEach(sp => {
+      sp.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        sp.classList.add('is-dragging');
+        sp.setPointerCapture(e.pointerId);
+
+        const seamIdx = parseInt(sp.dataset.tridentSeam, 10);
+        const startX = e.clientX;
+
+        const cards = tridentEl.querySelectorAll('.tile-card');
+        const cardA = cards[seamIdx];
+        const cardB = cards[seamIdx + 1];
+
+        const initialW_A = cardA.offsetWidth;
+        const initialW_B = cardB.offsetWidth;
+        const totalW = initialW_A + initialW_B;
+
+        const onPointerMove = (ev) => {
+          const dx = ev.clientX - startX;
+          let newW_A = initialW_A + dx;
+          let newW_B = initialW_B - dx;
+
+          const minW = 60;
+          if(newW_A < minW){ newW_A = minW; newW_B = totalW - minW; }
+          if(newW_B < minW){ newW_B = minW; newW_A = totalW - minW; }
+
+          const ratioA = newW_A / totalW;
+          const ratioB = newW_B / totalW;
+          const sumW = tridentWeights[seamIdx] + tridentWeights[seamIdx + 1];
+
+          tridentWeights[seamIdx] = +(sumW * ratioA).toFixed(3);
+          tridentWeights[seamIdx + 1] = +(sumW * ratioB).toFixed(3);
+
+          applyTridentWeights(tridentWeights);
+        };
+
+        const onPointerUp = (ev) => {
+          sp.classList.remove('is-dragging');
+          try { sp.releasePointerCapture(ev.pointerId); } catch(err){}
+          window.removeEventListener('pointermove', onPointerMove);
+          window.removeEventListener('pointerup', onPointerUp);
+          try {
+            localStorage.setItem('supernode_trident_weights', JSON.stringify(tridentWeights));
+          } catch(err){}
+        };
+
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+      });
+
+      sp.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        resetTrident();
+      });
+    });
+  }
+
+  /* ==================== MODULE INITIALIZATION ==================== */
   function populateModules(){
     const modules = [
-      { id: 'body1A', fn: window.Panel1A },
-      { id: 'body1B', fn: window.Panel1B },
-      { id: 'body1C', fn: window.Panel1C },
-      { id: 'body2A', fn: window.Panel2A },
-      { id: 'body2B', fn: window.Panel2B },
-      { id: 'body2C', fn: window.Panel2C },
-      { id: 'body3A', fn: window.Panel3A },
-      { id: 'body3B', fn: window.Panel3B },
-      { id: 'body3C', fn: window.Panel3C }
+      { id: 'body1A', fn: window.NovaPanel1 },
+      { id: 'body1B', fn: window.NovaPanel2 },
+      { id: 'body1C', fn: window.NovaPanel3 },
+      { id: 'body2A', fn: window.NovaPanel4 },
+      { id: 'body2B', fn: window.NovaPanel5 },
+      { id: 'body2C', fn: window.NovaPanel6 },
+      { id: 'body3A', fn: window.NovaPanel7 },
+      { id: 'body3B', fn: window.NovaPanel8 },
+      { id: 'body3C', fn: window.NovaPanel9 },
+      { id: 'quadBody1', fn: window.QuadPanel1 },
+      { id: 'quadBody2', fn: window.QuadPanel2 },
+      { id: 'quadBody3', fn: window.QuadPanel3 },
+      { id: 'quadBody4', fn: window.QuadPanel4 },
+      { id: 'tridentBody1', fn: window.TridentPanel1 },
+      { id: 'tridentBody2', fn: window.TridentPanel2 },
+      { id: 'tridentBody3', fn: window.TridentPanel3 }
     ];
 
     modules.forEach(m => {
@@ -1379,8 +1407,10 @@
   document.addEventListener('DOMContentLoaded', () => {
     initTierSplitters();
     initColSplitters();
-    bindBezelControls();
-    updateRowCollapseUI(false);
+    initVeilSelector();
+    initQuadSplitter();
+    initTridentSplitters();
+    switchVeil(currentActiveVeil);
     populateModules();
   });
 

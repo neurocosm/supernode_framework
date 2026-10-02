@@ -1,14 +1,12 @@
 /**
- * Panel 5
+ * Quad Veil - Panel 1 (Top Left)
  */
-window.Panel2B = {
-  id: 'panel2B',
-  title: '5',
+window.QuadPanel1 = {
+  id: 'quad_panel1',
+  title: '1',
   badge: '',
-  
   init(container) {
     container.innerHTML = ``;
   },
-
   onResize(width, height) {}
 };

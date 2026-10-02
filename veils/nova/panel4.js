@@ -1,14 +1,12 @@
 /**
- * Panel 2
+ * Nova Veil - Panel 4
  */
-window.Panel1B = {
-  id: 'panel1B',
-  title: '2',
+window.NovaPanel4 = {
+  id: 'nova_panel4',
+  title: '4',
   badge: '',
-  
   init(container) {
     container.innerHTML = ``;
   },
-
   onResize(width, height) {}
 };

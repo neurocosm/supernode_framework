@@ -1,14 +1,12 @@
 /**
- * Panel 6
+ * Trident Veil - Panel 3 (Right Column)
  */
-window.Panel2C = {
-  id: 'panel2C',
-  title: '6',
+window.TridentPanel3 = {
+  id: 'trident_panel3',
+  title: '3',
   badge: '',
-  
   init(container) {
     container.innerHTML = ``;
   },
-
   onResize(width, height) {}
 };
