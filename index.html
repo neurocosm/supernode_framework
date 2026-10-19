@@ -523,6 +523,34 @@
       transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
 
+    /* ==================== STRATA VEIL STYLES (3 HORIZONTAL ROWS) ==================== */
+    #veilStrata{
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: stretch;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      --stra-h1: 1;
+      --stra-h2: 1;
+      --stra-h3: 1;
+    }
+    #veilStrata.active{
+      display: flex !important;
+    }
+
+    #strataRow1{ flex: var(--stra-h1, 1) 1 0px; min-height: 0; height: 0; width: 100%; }
+    #strataRow2{ flex: var(--stra-h2, 1) 1 0px; min-height: 0; height: 0; width: 100%; }
+    #strataRow3{ flex: var(--stra-h3, 1) 1 0px; min-height: 0; height: 0; width: 100%; }
+
+    #veilStrata.is-resetting #strataRow1,
+    #veilStrata.is-resetting #strataRow2,
+    #veilStrata.is-resetting #strataRow3,
+    #veilStrata.is-resetting .tier-splitter{
+      transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
     /* ==================== CANVAS VEIL STYLES ==================== */
     #veilCanvas{
       display: none;
@@ -629,16 +657,17 @@
 
 <div class="device" id="supernodeDevice">
   
-  <!-- Top Chassis Header Strip with 4 Dots Veil Selector -->
+  <!-- Top Chassis Header Strip with 5 Dots Veil Selector -->
   <div class="device-header-strip">
     <div class="brand-group">
       <span class="brand-name">SUPERNODE FRAMEWORK</span>
-      <span class="brand-version-tag">v1.10192026.1328</span>
+      <span class="brand-version-tag">v1.10192026.1331</span>
     </div>
     <div class="veil-dots-container" id="veilDotsContainer">
       <button type="button" class="veil-dot active" data-veil="nova" title="Veil: Nova (Click to switch, Long-press to equalize)" aria-label="Veil: Nova (Click to switch, Long-press to equalize)"></button>
       <button type="button" class="veil-dot" data-veil="quad" title="Veil: Quad (Click to switch, Long-press to equalize)" aria-label="Veil: Quad (Click to switch, Long-press to equalize)"></button>
       <button type="button" class="veil-dot" data-veil="trident" title="Veil: Trident (Click to switch, Long-press to equalize)" aria-label="Veil: Trident (Click to switch, Long-press to equalize)"></button>
+      <button type="button" class="veil-dot" data-veil="strata" title="Veil: Strata (Click to switch, Long-press to equalize)" aria-label="Veil: Strata (3 horizontal rows)"></button>
       <button type="button" class="veil-dot" data-veil="canvas" title="Veil: Canvas (Single Canvas View)" aria-label="Veil: Canvas (Single Canvas View)"></button>
     </div>
     <span class="brand-ver" id="brandStatus">VEIL: NOVA • 9-PANEL</span>
@@ -858,7 +887,46 @@
 
       </div> <!-- #veilTrident -->
 
-      <!-- ==================== VEIL 4: CANVAS (SINGLE FULL CANVAS) ==================== -->
+      <!-- ==================== VEIL 4: STRATA (3-ROW MATRIX) ==================== -->
+      <div class="veil-viewport" id="veilStrata">
+        
+        <!-- Row 1 (Top) -->
+        <div class="tile-card" id="strataRow1">
+          <div class="tile-header">
+            <span class="tile-title">1</span>
+          </div>
+          <div class="tile-body" id="strataBody1"></div>
+        </div>
+
+        <!-- Horizontal Tier Splitter 0 -->
+        <div class="tier-splitter" id="strataSplit0" data-strata-seam="0" role="separator" aria-orientation="horizontal" title="Drag to resize height (double-click to reset)">
+          <div class="tier-splitter-grip"></div>
+        </div>
+
+        <!-- Row 2 (Middle) -->
+        <div class="tile-card" id="strataRow2">
+          <div class="tile-header">
+            <span class="tile-title">2</span>
+          </div>
+          <div class="tile-body" id="strataBody2"></div>
+        </div>
+
+        <!-- Horizontal Tier Splitter 1 -->
+        <div class="tier-splitter" id="strataSplit1" data-strata-seam="1" role="separator" aria-orientation="horizontal" title="Drag to resize height (double-click to reset)">
+          <div class="tier-splitter-grip"></div>
+        </div>
+
+        <!-- Row 3 (Bottom) -->
+        <div class="tile-card" id="strataRow3">
+          <div class="tile-header">
+            <span class="tile-title">3</span>
+          </div>
+          <div class="tile-body" id="strataBody3"></div>
+        </div>
+
+      </div> <!-- #veilStrata -->
+
+      <!-- ==================== VEIL 5: CANVAS (SINGLE FULL CANVAS) ==================== -->
       <div class="veil-viewport" id="veilCanvas">
         <div class="tile-card" id="canvasPanel1">
           <div class="tile-header">
@@ -902,6 +970,9 @@
 <script src="veils/trident/panel1.js"></script>
 <script src="veils/trident/panel2.js"></script>
 <script src="veils/trident/panel3.js"></script>
+<script src="veils/strata/panel1.js"></script>
+<script src="veils/strata/panel2.js"></script>
+<script src="veils/strata/panel3.js"></script>
 <script src="veils/canvas/panel1.js"></script>
 
 <script>
@@ -1123,7 +1194,7 @@
   }
 
   /* ==================== VEIL SWITCHING SYSTEM ==================== */
-  const VALID_VEILS = ['nova', 'quad', 'trident', 'canvas'];
+  const VALID_VEILS = ['nova', 'quad', 'trident', 'strata', 'canvas'];
   let currentActiveVeil = 'nova';
   try {
     const savedVeil = localStorage.getItem('supernode_active_veil');
@@ -1142,6 +1213,7 @@
     const vNova = document.getElementById('veilNova');
     const vQuad = document.getElementById('veilQuad');
     const vTrident = document.getElementById('veilTrident');
+    const vStrata = document.getElementById('veilStrata');
     const vCanvas = document.getElementById('veilCanvas');
     const dots = document.querySelectorAll('.veil-dot');
     const status = document.getElementById('brandStatus');
@@ -1149,12 +1221,14 @@
     if(vNova) vNova.classList.toggle('active', veilName === 'nova');
     if(vQuad) vQuad.classList.toggle('active', veilName === 'quad');
     if(vTrident) vTrident.classList.toggle('active', veilName === 'trident');
+    if(vStrata) vStrata.classList.toggle('active', veilName === 'strata');
     if(vCanvas) vCanvas.classList.toggle('active', veilName === 'canvas');
 
     if(status){
       if(veilName === 'nova') status.textContent = 'VEIL: NOVA • 9-PANEL';
       else if(veilName === 'quad') status.textContent = 'VEIL: QUAD • 4-PANEL';
       else if(veilName === 'trident') status.textContent = 'VEIL: TRIDENT • 3-COLUMN';
+      else if(veilName === 'strata') status.textContent = 'VEIL: STRATA • 3-ROW';
       else if(veilName === 'canvas') status.textContent = 'VEIL: CANVAS • SINGLE CANVAS';
     }
 
@@ -1200,6 +1274,7 @@
           if(target === 'nova') resetNova();
           else if(target === 'quad') resetQuad();
           else if(target === 'trident') resetTrident();
+          else if(target === 'strata') resetStrata();
           else if(target === 'canvas') resetCanvas();
 
           // Visual confirmation pulse
@@ -1480,6 +1555,100 @@
     });
   }
 
+  /* ==================== STRATA VEIL SPLITTER (3 HORIZONTAL ROWS) ==================== */
+  function initStrataSplitters(){
+    const strataEl = document.getElementById('veilStrata');
+    if(!strataEl) return;
+
+    let strataWeights = [1, 1, 1];
+    try {
+      const saved = JSON.parse(localStorage.getItem('supernode_strata_heights'));
+      if(Array.isArray(saved) && saved.length === 3 && saved.every(n => typeof n === 'number' && n > 0.05)){
+        strataWeights = saved;
+      }
+    } catch(e){}
+
+    function applyStrataWeights(weights, smooth = false){
+      if(smooth){
+        strataEl.classList.add('is-resetting');
+        setTimeout(() => strataEl.classList.remove('is-resetting'), 270);
+      }
+      strataEl.style.setProperty('--stra-h1', String(weights[0]));
+      strataEl.style.setProperty('--stra-h2', String(weights[1]));
+      strataEl.style.setProperty('--stra-h3', String(weights[2]));
+      strataWeights = [...weights];
+    }
+
+    applyStrataWeights(strataWeights);
+
+    function resetStrata(){
+      applyStrataWeights([1, 1, 1], true);
+      try {
+        localStorage.setItem('supernode_strata_heights', JSON.stringify([1, 1, 1]));
+      } catch(err){}
+    }
+    window.resetStrata = resetStrata;
+
+    const splitters = strataEl.querySelectorAll('.tier-splitter');
+    splitters.forEach(sp => {
+      sp.addEventListener('pointerdown', (e) => {
+        const seamIdx = parseInt(sp.dataset.strataSeam, 10);
+        if(isNaN(seamIdx)) return;
+
+        const cards = strataEl.querySelectorAll('.tile-card');
+        const cardA = cards[seamIdx];
+        const cardB = cards[seamIdx + 1];
+        if(!cardA || !cardB) return;
+
+        e.preventDefault();
+        sp.classList.add('is-dragging');
+        sp.setPointerCapture(e.pointerId);
+
+        const startY = e.clientY;
+        const initialH_A = cardA.offsetHeight;
+        const initialH_B = cardB.offsetHeight;
+        const totalH = initialH_A + initialH_B;
+
+        const onPointerMove = (ev) => {
+          const dy = ev.clientY - startY;
+          let newH_A = initialH_A + dy;
+          let newH_B = initialH_B - dy;
+
+          const minH = 50;
+          if(newH_A < minH){ newH_A = minH; newH_B = totalH - minH; }
+          if(newH_B < minH){ newH_B = minH; newH_A = totalH - minH; }
+
+          const ratioA = newH_A / totalH;
+          const ratioB = newH_B / totalH;
+          const sumH = strataWeights[seamIdx] + strataWeights[seamIdx + 1];
+
+          strataWeights[seamIdx] = +(sumH * ratioA).toFixed(3);
+          strataWeights[seamIdx + 1] = +(sumH * ratioB).toFixed(3);
+
+          applyStrataWeights(strataWeights);
+        };
+
+        const onPointerUp = (ev) => {
+          sp.classList.remove('is-dragging');
+          try { sp.releasePointerCapture(ev.pointerId); } catch(err){}
+          window.removeEventListener('pointermove', onPointerMove);
+          window.removeEventListener('pointerup', onPointerUp);
+          try {
+            localStorage.setItem('supernode_strata_heights', JSON.stringify(strataWeights));
+          } catch(err){}
+        };
+
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+      });
+
+      sp.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        resetStrata();
+      });
+    });
+  }
+
   /* ==================== MODULE INITIALIZATION ==================== */
   function populateModules(){
     const modules = [
@@ -1499,6 +1668,9 @@
       { id: 'tridentBody1', fn: window.TridentPanel1 },
       { id: 'tridentBody2', fn: window.TridentPanel2 },
       { id: 'tridentBody3', fn: window.TridentPanel3 },
+      { id: 'strataBody1', fn: window.StrataPanel1 },
+      { id: 'strataBody2', fn: window.StrataPanel2 },
+      { id: 'strataBody3', fn: window.StrataPanel3 },
       { id: 'canvasBody1', fn: window.CanvasPanel1 }
     ];
 
@@ -1517,6 +1689,7 @@
     initVeilSelector();
     initQuadSplitter();
     initTridentSplitters();
+    initStrataSplitters();
     switchVeil(currentActiveVeil);
     populateModules();
   });
