@@ -633,7 +633,7 @@
   <div class="device-header-strip">
     <div class="brand-group">
       <span class="brand-name">SUPERNODE FRAMEWORK</span>
-      <span class="brand-version-tag">v1.10192026.1322</span>
+      <span class="brand-version-tag">v1.10192026.1328</span>
     </div>
     <div class="veil-dots-container" id="veilDotsContainer">
       <button type="button" class="veil-dot active" data-veil="nova" title="Veil: Nova (Click to switch, Long-press to equalize)" aria-label="Veil: Nova (Click to switch, Long-press to equalize)"></button>
@@ -984,23 +984,26 @@
   }
 
   function initTierSplitters(){
-    const splitters = document.querySelectorAll('.tier-splitter');
+    const splitters = document.querySelectorAll('#veilNova .tier-splitter');
 
     splitters.forEach(sp => {
       sp.addEventListener('pointerdown', (e) => {
-        e.preventDefault();
-        sp.classList.add('is-dragging');
-        sp.setPointerCapture(e.pointerId);
-
-        const startY = e.clientY;
         const seamIdx = parseInt(sp.dataset.tierSeam, 10);
-        
+        if(isNaN(seamIdx)) return;
+
         const rowAboveId = VALID_ROW_IDS[seamIdx];
         const rowBelowId = VALID_ROW_IDS[seamIdx + 1];
         if(!rowAboveId || !rowBelowId) return;
 
         const rowAboveEl = document.getElementById(rowAboveId);
         const rowBelowEl = document.getElementById(rowBelowId);
+        if(!rowAboveEl || !rowBelowEl) return;
+
+        e.preventDefault();
+        sp.classList.add('is-dragging');
+        sp.setPointerCapture(e.pointerId);
+
+        const startY = e.clientY;
         const initialAboveHeight = rowAboveEl.offsetHeight;
         const initialBelowHeight = rowBelowEl.offsetHeight;
         const totalH = initialAboveHeight + initialBelowHeight;
@@ -1049,23 +1052,28 @@
   }
 
   function initColSplitters(){
-    const colSplitters = document.querySelectorAll('.col-splitter');
+    const colSplitters = document.querySelectorAll('#veilNova .col-splitter');
 
     colSplitters.forEach(sp => {
       sp.addEventListener('pointerdown', (e) => {
+        const rowKey = sp.dataset.row;
+        if(!rowKey) return;
+        const rowEl = document.getElementById(rowKey);
+        if(!rowEl) return;
+
+        const seamIdx = parseInt(sp.dataset.seam, 10);
+        if(isNaN(seamIdx)) return;
+
+        const cards = rowEl.querySelectorAll('.tile-card');
+        const cardA = cards[seamIdx];
+        const cardB = cards[seamIdx + 1];
+        if(!cardA || !cardB) return;
+
         e.preventDefault();
         sp.classList.add('is-dragging');
         sp.setPointerCapture(e.pointerId);
 
-        const rowKey = sp.dataset.row;
-        const seamIdx = parseInt(sp.dataset.seam, 10);
         const startX = e.clientX;
-
-        const rowEl = document.getElementById(rowKey);
-        const cards = rowEl.querySelectorAll('.tile-card');
-        const cardA = cards[seamIdx];
-        const cardB = cards[seamIdx + 1];
-
         const initialW_A = cardA.offsetWidth;
         const initialW_B = cardB.offsetWidth;
         const totalW = initialW_A + initialW_B;
@@ -1416,12 +1424,18 @@
         sp.setPointerCapture(e.pointerId);
 
         const seamIdx = parseInt(sp.dataset.tridentSeam, 10);
-        const startX = e.clientX;
+        if(isNaN(seamIdx)) return;
 
         const cards = tridentEl.querySelectorAll('.tile-card');
         const cardA = cards[seamIdx];
         const cardB = cards[seamIdx + 1];
+        if(!cardA || !cardB) return;
 
+        e.preventDefault();
+        sp.classList.add('is-dragging');
+        sp.setPointerCapture(e.pointerId);
+
+        const startX = e.clientX;
         const initialW_A = cardA.offsetWidth;
         const initialW_B = cardB.offsetWidth;
         const totalW = initialW_A + initialW_B;
