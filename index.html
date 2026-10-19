@@ -523,6 +523,26 @@
       transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
 
+    /* ==================== CANVAS VEIL STYLES ==================== */
+    #veilCanvas{
+      display: none;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #veilCanvas.active{
+      display: flex !important;
+    }
+    #canvasPanel1{
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      flex: 1 1 auto;
+    }
+
     /* Common Card Styling */
     .tile-card{
       background: var(--card-bg);
@@ -573,16 +593,17 @@
 
 <div class="device" id="supernodeDevice">
   
-  <!-- Top Chassis Header Strip with 3 Dots Veil Selector -->
+  <!-- Top Chassis Header Strip with 4 Dots Veil Selector -->
   <div class="device-header-strip">
     <div class="brand-group">
       <span class="brand-name">SUPERNODE FRAMEWORK</span>
-      <span class="brand-version-tag">v1.10012026.2247</span>
+      <span class="brand-version-tag">v1.10192026.0619</span>
     </div>
     <div class="veil-dots-container" id="veilDotsContainer">
       <button type="button" class="veil-dot active" data-veil="nova" title="Veil: Nova (Click to switch, Long-press to equalize)" aria-label="Veil: Nova (Click to switch, Long-press to equalize)"></button>
       <button type="button" class="veil-dot" data-veil="quad" title="Veil: Quad (Click to switch, Long-press to equalize)" aria-label="Veil: Quad (Click to switch, Long-press to equalize)"></button>
       <button type="button" class="veil-dot" data-veil="trident" title="Veil: Trident (Click to switch, Long-press to equalize)" aria-label="Veil: Trident (Click to switch, Long-press to equalize)"></button>
+      <button type="button" class="veil-dot" data-veil="canvas" title="Veil: Canvas (Single Canvas View)" aria-label="Veil: Canvas (Single Canvas View)"></button>
     </div>
     <span class="brand-ver" id="brandStatus">VEIL: NOVA • 9-PANEL</span>
   </div>
@@ -801,6 +822,16 @@
 
       </div> <!-- #veilTrident -->
 
+      <!-- ==================== VEIL 4: CANVAS (SINGLE FULL CANVAS) ==================== -->
+      <div class="veil-viewport" id="veilCanvas">
+        <div class="tile-card" id="canvasPanel1">
+          <div class="tile-header">
+            <span class="tile-title">1</span>
+          </div>
+          <div class="tile-body" id="canvasBody1"></div>
+        </div>
+      </div> <!-- #veilCanvas -->
+
     </div> <!-- #screen -->
   </div> <!-- #deviceBody -->
 
@@ -823,6 +854,7 @@
 <script src="veils/trident/panel1.js"></script>
 <script src="veils/trident/panel2.js"></script>
 <script src="veils/trident/panel3.js"></script>
+<script src="veils/canvas/panel1.js"></script>
 
 <script>
 (function(){
@@ -1035,7 +1067,7 @@
   }
 
   /* ==================== VEIL SWITCHING SYSTEM ==================== */
-  const VALID_VEILS = ['nova', 'quad', 'trident'];
+  const VALID_VEILS = ['nova', 'quad', 'trident', 'canvas'];
   let currentActiveVeil = 'nova';
   try {
     const savedVeil = localStorage.getItem('supernode_active_veil');
@@ -1054,23 +1086,34 @@
     const vNova = document.getElementById('veilNova');
     const vQuad = document.getElementById('veilQuad');
     const vTrident = document.getElementById('veilTrident');
+    const vCanvas = document.getElementById('veilCanvas');
     const dots = document.querySelectorAll('.veil-dot');
     const status = document.getElementById('brandStatus');
 
     if(vNova) vNova.classList.toggle('active', veilName === 'nova');
     if(vQuad) vQuad.classList.toggle('active', veilName === 'quad');
     if(vTrident) vTrident.classList.toggle('active', veilName === 'trident');
+    if(vCanvas) vCanvas.classList.toggle('active', veilName === 'canvas');
 
     if(status){
       if(veilName === 'nova') status.textContent = 'VEIL: NOVA • 9-PANEL';
       else if(veilName === 'quad') status.textContent = 'VEIL: QUAD • 4-PANEL';
       else if(veilName === 'trident') status.textContent = 'VEIL: TRIDENT • 3-COLUMN';
+      else if(veilName === 'canvas') status.textContent = 'VEIL: CANVAS • SINGLE CANVAS';
     }
 
     dots.forEach(d => {
       const target = d.dataset.veil;
       d.classList.toggle('active', target === veilName);
     });
+  }
+
+  function resetCanvas(){
+    const canvasEl = document.getElementById('veilCanvas');
+    if(canvasEl){
+      canvasEl.classList.add('is-resetting');
+      setTimeout(() => canvasEl.classList.remove('is-resetting'), 270);
+    }
   }
 
   function initVeilSelector(){
@@ -1101,6 +1144,7 @@
           if(target === 'nova') resetNova();
           else if(target === 'quad') resetQuad();
           else if(target === 'trident') resetTrident();
+          else if(target === 'canvas') resetCanvas();
 
           // Visual confirmation pulse
           d.classList.add('is-equalized');
@@ -1392,7 +1436,8 @@
       { id: 'quadBody4', fn: window.QuadPanel4 },
       { id: 'tridentBody1', fn: window.TridentPanel1 },
       { id: 'tridentBody2', fn: window.TridentPanel2 },
-      { id: 'tridentBody3', fn: window.TridentPanel3 }
+      { id: 'tridentBody3', fn: window.TridentPanel3 },
+      { id: 'canvasBody1', fn: window.CanvasPanel1 }
     ];
 
     modules.forEach(m => {
