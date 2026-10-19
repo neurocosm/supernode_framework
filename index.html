@@ -543,6 +543,42 @@
       flex: 1 1 auto;
     }
 
+    .canvas-crosshair-hub{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1.5px solid transparent;
+      box-shadow: none;
+      cursor: default;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #768793;
+      user-select: none;
+      touch-action: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .canvas-crosshair-hub:hover{
+      color: #cbd5e1;
+      border-color: rgba(56, 189, 248, 0.4);
+      background: rgba(8, 47, 73, 0.5);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+      cursor: pointer;
+    }
+    .canvas-crosshair-hub:active{
+      transform: translate(-50%, -50%) scale(1.15);
+      border-color: #38bdf8;
+      color: #e0f2fe;
+      background: #082f49;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.7);
+    }
+
     /* Common Card Styling */
     .tile-card{
       background: var(--card-bg);
@@ -597,7 +633,7 @@
   <div class="device-header-strip">
     <div class="brand-group">
       <span class="brand-name">SUPERNODE FRAMEWORK</span>
-      <span class="brand-version-tag">v1.10192026.0619</span>
+      <span class="brand-version-tag">v1.10192026.1322</span>
     </div>
     <div class="veil-dots-container" id="veilDotsContainer">
       <button type="button" class="veil-dot active" data-veil="nova" title="Veil: Nova (Click to switch, Long-press to equalize)" aria-label="Veil: Nova (Click to switch, Long-press to equalize)"></button>
@@ -829,6 +865,18 @@
             <span class="tile-title">1</span>
           </div>
           <div class="tile-body" id="canvasBody1"></div>
+        </div>
+
+        <!-- Center Crosshairs Anchor (Just like QUAD veil, ready for multi-functionality) -->
+        <div class="canvas-crosshair-hub" id="canvasCrossHub" role="button" tabindex="0" title="Canvas Center Crosshairs" aria-label="Canvas Center Crosshairs">
+          <div class="hub-ring"></div>
+          <svg class="hub-cross-icon" viewBox="0 0 24 24" width="13" height="13">
+            <polygon points="12,2 15,6 9,6" fill="currentColor"/>
+            <polygon points="12,22 15,18 9,18" fill="currentColor"/>
+            <polygon points="2,12 6,9 6,15" fill="currentColor"/>
+            <polygon points="22,12 18,9 18,15" fill="currentColor"/>
+            <circle cx="12" cy="12" r="2.2" fill="currentColor"/>
+          </svg>
         </div>
       </div> <!-- #veilCanvas -->
 
